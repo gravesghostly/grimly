@@ -11,10 +11,13 @@
     <div class="container">
         <header>
             <h1>Project Workflow Tracker</h1>
-            <p>Select a project type to get started</p>
+            <div class="header-actions">
+                <button class="btn" id="view-history">View Project History</button>
+                <button class="btn" id="new-project">New Project</button>
+            </div>
         </header>
 
-        <div class="project-types">
+        <div class="project-types" id="project-selection">
             <div class="project-card" data-type="logo-personal">
                 <i class="fas fa-paint-brush"></i>
                 <h3>Logo (Personal)</h3>
@@ -54,37 +57,98 @@
 
         <div class="workflow-container" style="display: none;">
             <div class="workflow-header">
-                <h2 id="project-title">Project Workflow</h2>
-                <button class="btn" id="generate-estimate">Generate Estimate</button>
+                <div class="project-info">
+                    <h2 id="project-title">Project Workflow</h2>
+                    <div class="client-info">
+                        <input type="text" id="client-name" placeholder="Client Name">
+                        <input type="email" id="client-email" placeholder="Client Email">
+                        <input type="text" id="project-name" placeholder="Project Name">
+                    </div>
+                </div>
+                <div class="project-actions">
+                    <button class="btn" id="save-project">Save Project</button>
+                    <button class="btn" id="generate-estimate">Generate Estimate</button>
+                </div>
             </div>
             
             <div class="workflow-steps">
                 <!-- Steps will be dynamically added here -->
             </div>
 
-            <div class="task-list">
-                <h3>Task List</h3>
-                <div class="task-input">
-                    <input type="text" id="new-task" placeholder="Add new task...">
-                    <button class="btn" id="add-task">Add</button>
+            <div class="project-details">
+                <div class="task-list">
+                    <h3>Task List</h3>
+                    <div class="task-input">
+                        <input type="text" id="new-task" placeholder="Add new task...">
+                        <button class="btn" id="add-task">Add</button>
+                    </div>
+                    <ul id="tasks">
+                        <!-- Tasks will be dynamically added here -->
+                    </ul>
                 </div>
-                <ul id="tasks">
-                    <!-- Tasks will be dynamically added here -->
-                </ul>
-            </div>
 
-            <div class="reference-section">
-                <h3>Reference Materials</h3>
-                <div class="upload-area">
-                    <input type="file" id="file-upload" multiple accept="image/*">
-                    <label for="file-upload" class="upload-label">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <span>Upload Reference Images</span>
-                    </label>
+                <div class="reference-section">
+                    <h3>Reference Materials</h3>
+                    <div class="upload-area">
+                        <input type="file" id="file-upload" multiple accept="image/*,.pdf,.doc,.docx">
+                        <label for="file-upload" class="upload-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Upload Files (Images, PDFs, Docs)</span>
+                        </label>
+                    </div>
+                    <div class="reference-gallery">
+                        <!-- Uploaded files will be displayed here -->
+                    </div>
                 </div>
-                <div class="reference-gallery">
-                    <!-- Uploaded images will be displayed here -->
+
+                <div class="notes-section">
+                    <h3>Project Notes</h3>
+                    <textarea id="project-notes" placeholder="Add notes about the project..."></textarea>
                 </div>
+
+                <div class="assets-section">
+                    <h3>Asset Tracking</h3>
+                    <div class="asset-input">
+                        <input type="text" id="asset-name" placeholder="Asset Name">
+                        <input type="text" id="asset-version" placeholder="Version">
+                        <input type="text" id="asset-status" placeholder="Status">
+                        <button class="btn" id="add-asset">Add Asset</button>
+                    </div>
+                    <table id="assets-table">
+                        <thead>
+                            <tr>
+                                <th>Asset Name</th>
+                                <th>Version</th>
+                                <th>Status</th>
+                                <th>Date Added</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Assets will be dynamically added here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-history" style="display: none;">
+            <h2>Project History</h2>
+            <div class="search-bar">
+                <input type="text" id="search-projects" placeholder="Search projects...">
+                <select id="filter-type">
+                    <option value="all">All Types</option>
+                    <option value="logo-personal">Logo (Personal)</option>
+                    <option value="logo-commission">Logo (Commission)</option>
+                    <option value="blog-secondlife">Blog (Second Life)</option>
+                    <option value="blog-gaming">Blog (Gaming)</option>
+                    <option value="game-ui">Game UI</option>
+                    <option value="game-design">Game Design</option>
+                    <option value="asset-design">Asset Design</option>
+                </select>
+            </div>
+            <div class="projects-list">
+                <!-- Project history will be displayed here -->
             </div>
         </div>
     </div>
