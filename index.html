@@ -3,156 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Workflow Tracker</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Grimly's Workflow Hub</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Project Workflow Tracker</h1>
-            <div class="header-actions">
-                <button class="btn" id="view-history">View Project History</button>
-                <button class="btn" id="new-project">New Project</button>
-            </div>
-        </header>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="blog-planner.html">Blog Planner</a></li>
+                <li><a href="project-workflow.html">Project Workflow</a></li>
+            </ul>
+        </nav>
+        <h1>Grimly's Workflow Hub</h1>
+    </header>
 
-        <div class="project-types" id="project-selection">
-            <div class="project-card" data-type="logo-personal">
-                <i class="fas fa-paint-brush"></i>
-                <h3>Logo (Personal)</h3>
-                <p>Personal logo design workflow</p>
-            </div>
-            <div class="project-card" data-type="logo-commission">
-                <i class="fas fa-handshake"></i>
-                <h3>Logo (Commission)</h3>
-                <p>Commissioned logo design workflow</p>
-            </div>
-            <div class="project-card" data-type="blog-secondlife">
-                <i class="fas fa-blog"></i>
-                <h3>Blog (Second Life)</h3>
-                <p>Second Life blog content workflow</p>
-            </div>
-            <div class="project-card" data-type="blog-gaming">
-                <i class="fas fa-gamepad"></i>
-                <h3>Blog (Gaming)</h3>
-                <p>Gaming blog content workflow</p>
-            </div>
-            <div class="project-card" data-type="game-ui">
-                <i class="fas fa-desktop"></i>
-                <h3>Game UI</h3>
-                <p>Game user interface design workflow</p>
-            </div>
-            <div class="project-card" data-type="game-design">
-                <i class="fas fa-dice"></i>
-                <h3>Game Design</h3>
-                <p>Game design and development workflow</p>
-            </div>
-            <div class="project-card" data-type="asset-design">
-                <i class="fas fa-cube"></i>
-                <h3>Asset Design</h3>
-                <p>Game asset design workflow</p>
-            </div>
-        </div>
+    <main>
+        <section class="welcome-section">
+            <h2>Welcome to My Workflow Hub</h2>
+            <p>This is your central hub for managing blog posts, projects, and creative workflows. Choose from the options below to get started.</p>
+        </section>
 
-        <div class="workflow-container" style="display: none;">
-            <div class="workflow-header">
-                <div class="project-info">
-                    <h2 id="project-title">Project Workflow</h2>
-                    <div class="client-info">
-                        <input type="text" id="client-name" placeholder="Client Name">
-                        <input type="email" id="client-email" placeholder="Client Email">
-                        <input type="text" id="project-name" placeholder="Project Name">
-                    </div>
-                </div>
-                <div class="project-actions">
-                    <button class="btn" id="save-project">Save Project</button>
-                    <button class="btn" id="generate-estimate">Generate Estimate</button>
-                </div>
+        <section class="projects-section">
+            <h2>Project Types</h2>
+            <div class="projects-grid">
+                <a href="blog-planner.html" class="project-card">
+                    <h3>📝 Blog Planner</h3>
+                    <p>Plan and organize your Second Life blog posts with ease.</p>
+                </a>
+                <a href="logo-design.html" class="project-card">
+                    <h3>🎨 Logo Design</h3>
+                    <p>Create and manage logo design projects with brand vision and style direction.</p>
+                </a>
+                <a href="game-ui.html" class="project-card">
+                    <h3>🎮 Game UI</h3>
+                    <p>Design and track game user interface projects with style and screen requirements.</p>
+                </a>
+                <a href="game-design.html" class="project-card">
+                    <h3>🎲 Game Design</h3>
+                    <p>Develop game concepts with genre and mechanics planning.</p>
+                </a>
+                <a href="asset-design.html" class="project-card">
+                    <h3>🖼 Asset Design</h3>
+                    <p>Manage asset creation projects with style and quantity tracking.</p>
+                </a>
             </div>
-            
-            <div class="workflow-steps">
-                <!-- Steps will be dynamically added here -->
-            </div>
+        </section>
+    </main>
 
-            <div class="project-details">
-                <div class="task-list">
-                    <h3>Task List</h3>
-                    <div class="task-input">
-                        <input type="text" id="new-task" placeholder="Add new task...">
-                        <button class="btn" id="add-task">Add</button>
-                    </div>
-                    <ul id="tasks">
-                        <!-- Tasks will be dynamically added here -->
-                    </ul>
-                </div>
-
-                <div class="reference-section">
-                    <h3>Reference Materials</h3>
-                    <div class="upload-area">
-                        <input type="file" id="file-upload" multiple accept="image/*,.pdf,.doc,.docx">
-                        <label for="file-upload" class="upload-label">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                            <span>Upload Files (Images, PDFs, Docs)</span>
-                        </label>
-                    </div>
-                    <div class="reference-gallery">
-                        <!-- Uploaded files will be displayed here -->
-                    </div>
-                </div>
-
-                <div class="notes-section">
-                    <h3>Project Notes</h3>
-                    <textarea id="project-notes" placeholder="Add notes about the project..."></textarea>
-                </div>
-
-                <div class="assets-section">
-                    <h3>Asset Tracking</h3>
-                    <div class="asset-input">
-                        <input type="text" id="asset-name" placeholder="Asset Name">
-                        <input type="text" id="asset-version" placeholder="Version">
-                        <input type="text" id="asset-status" placeholder="Status">
-                        <button class="btn" id="add-asset">Add Asset</button>
-                    </div>
-                    <table id="assets-table">
-                        <thead>
-                            <tr>
-                                <th>Asset Name</th>
-                                <th>Version</th>
-                                <th>Status</th>
-                                <th>Date Added</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Assets will be dynamically added here -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <div class="project-history" style="display: none;">
-            <h2>Project History</h2>
-            <div class="search-bar">
-                <input type="text" id="search-projects" placeholder="Search projects...">
-                <select id="filter-type">
-                    <option value="all">All Types</option>
-                    <option value="logo-personal">Logo (Personal)</option>
-                    <option value="logo-commission">Logo (Commission)</option>
-                    <option value="blog-secondlife">Blog (Second Life)</option>
-                    <option value="blog-gaming">Blog (Gaming)</option>
-                    <option value="game-ui">Game UI</option>
-                    <option value="game-design">Game Design</option>
-                    <option value="asset-design">Asset Design</option>
-                </select>
-            </div>
-            <div class="projects-list">
-                <!-- Project history will be displayed here -->
-            </div>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+    <footer>
+        <p>&copy; 2024 Grimly's Workflow Hub. All rights reserved.</p>
+    </footer>
 </body>
 </html> 

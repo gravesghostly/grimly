@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game UI - Grimly's Workflow Hub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="blog-planner.html">Blog Planner</a></li>
+                <li><a href="project-workflow.html">Project Workflow</a></li>
+            </ul>
+        </nav>
+        <h1>Game UI Project</h1>
+    </header>
+
+    <main>
+        <form id="gameUIForm">
+            <fieldset>
+                <legend>🎮 Game UI Details</legend>
+                <div class="form-group">
+                    <label for="ui-game">Game Name:</label>
+                    <input type="text" id="ui-game" name="ui-game" required>
+                </div>
+                <div class="form-group">
+                    <label for="ui-style">UI Style:</label>
+                    <input type="text" id="ui-style" name="ui-style" required>
+                </div>
+                <div class="form-group">
+                    <label for="ui-screens">Number of Screens:</label>
+                    <input type="number" id="ui-screens" name="ui-screens" required>
+                </div>
+                <div class="form-group">
+                    <label for="ui-resolution">Target Resolution:</label>
+                    <input type="text" id="ui-resolution" name="ui-resolution" placeholder="e.g., 1920x1080" required>
+                </div>
+                <div class="form-group">
+                    <label for="ui-wireframes">Wireframe Sketches:</label>
+                    <input type="file" id="ui-wireframes" name="ui-wireframes" accept="image/*" multiple>
+                </div>
+                <div class="form-group">
+                    <label for="ui-deadline">Deadline:</label>
+                    <input type="date" id="ui-deadline" name="ui-deadline" required>
+                </div>
+                <div class="form-group">
+                    <label for="ui-notes">Additional Notes:</label>
+                    <textarea id="ui-notes" name="ui-notes" placeholder="Any additional requirements or preferences..."></textarea>
+                </div>
+            </fieldset>
+
+            <button type="button" onclick="saveFormData()">Save Project</button>
+        </form>
+    </main>
+
+    <script>
+        function saveFormData() {
+            const form = document.getElementById('gameUIForm');
+            const formData = {};
+
+            // Handle text, number, date inputs, textareas, and file inputs
+            const inputs = form.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], textarea, input[type="file"]');
+            inputs.forEach(input => {
+                if (input.type === 'file') {
+                    // For file inputs, store the file names
+                    const files = input.files;
+                    if (files.length > 0) {
+                        formData[input.name] = Array.from(files).map(file => file.name);
+                    }
+                } else {
+                    formData[input.name] = input.value;
+                }
+            });
+
+            localStorage.setItem('gameUIForm', JSON.stringify(formData));
+            alert("Game UI project saved successfully!");
+        }
+
+        function loadFormData() {
+            const savedData = localStorage.getItem('gameUIForm');
+            if (savedData) {
+                const formData = JSON.parse(savedData);
+                const form = document.getElementById('gameUIForm');
+
+                // Restore inputs
+                const inputs = form.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], textarea');
+                inputs.forEach(input => {
+                    if (formData[input.name]) {
+                        input.value = formData[input.name];
+                    }
+                });
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadFormData);
+    </script>
+</body>
+</html> 

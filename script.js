@@ -1,64 +1,5 @@
-// Project workflow definitions with checklists
+// Project workflow definitions with checklists and explanations
 const workflows = {
-    'logo-personal': {
-        title: 'Personal Logo Design',
-        steps: [
-            {
-                name: 'Initial Concept',
-                checklist: [
-                    'Define brand identity',
-                    'Research competitors',
-                    'Create mood board',
-                    'Sketch initial ideas'
-                ]
-            },
-            {
-                name: 'Research & Inspiration',
-                checklist: [
-                    'Collect visual references',
-                    'Analyze color schemes',
-                    'Study typography options',
-                    'Document design trends'
-                ]
-            },
-            {
-                name: 'Sketching',
-                checklist: [
-                    'Create rough sketches',
-                    'Refine best concepts',
-                    'Experiment with variations',
-                    'Select top 3 concepts'
-                ]
-            },
-            {
-                name: 'Digital Draft',
-                checklist: [
-                    'Vectorize selected concepts',
-                    'Create color variations',
-                    'Test different typography',
-                    'Prepare presentation'
-                ]
-            },
-            {
-                name: 'Refinement',
-                checklist: [
-                    'Gather feedback',
-                    'Make necessary adjustments',
-                    'Finalize color scheme',
-                    'Prepare final files'
-                ]
-            },
-            {
-                name: 'Final Delivery',
-                checklist: [
-                    'Export all file formats',
-                    'Create style guide',
-                    'Prepare documentation',
-                    'Archive project files'
-                ]
-            }
-        ]
-    },
     'logo-commission': {
         title: 'Commissioned Logo Design',
         steps: [
@@ -133,6 +74,28 @@ const workflows = {
     }
 };
 
+// Sponsor data
+const sponsors = {
+    'sponsor1': {
+        name: 'Sponsor 1',
+        landmark: 'Landmark 1'
+    },
+    'sponsor2': {
+        name: 'Sponsor 2',
+        landmark: 'Landmark 2'
+    },
+    'sponsor3': {
+        name: 'Sponsor 3',
+        landmark: 'Landmark 3'
+    }
+};
+
+// Tag suggestions
+const tagSuggestions = {
+    'blog-second-life': ['Second Life', 'Virtual World', 'Fashion', 'Photography', 'Events', 'Shopping'],
+    'blog-gaming': ['Gaming', 'Reviews', 'News', 'Indie Games', 'PC Gaming', 'Console Gaming']
+};
+
 // DOM Elements
 const projectCards = document.querySelectorAll('.project-card');
 const workflowContainer = document.querySelector('.workflow-container');
@@ -152,6 +115,7 @@ const projectHistory = document.querySelector('.project-history');
 const projectsList = document.querySelector('.projects-list');
 const searchProjects = document.getElementById('search-projects');
 const filterType = document.getElementById('filter-type');
+const projectTypeForms = document.querySelectorAll('.project-type-form');
 
 // Current project state
 let currentProject = null;
@@ -161,14 +125,78 @@ let assets = [];
 let projectNotes = '';
 let savedProjects = JSON.parse(localStorage.getItem('projects')) || [];
 
-// Event Listeners
+// Initialize the application
+document.addEventListener('DOMContentLoaded', () => {
+    // Hide all project type forms initially
+    projectTypeForms.forEach(form => {
+        form.style.display = 'none';
+    });
+
+    // Hide workflow container initially
+    workflowContainer.style.display = 'none';
+});
+
+// Project Type Selection
 projectCards.forEach(card => {
     card.addEventListener('click', () => {
-        const projectType = card.dataset.type;
-        selectProject(projectType);
+        const projectType = card.getAttribute('data-type');
+        
+        // Hide project selection and show workflow container
+        projectSelection.style.display = 'none';
+        workflowContainer.style.display = 'block';
+        
+        // Hide all forms
+        projectTypeForms.forEach(form => {
+            form.style.display = 'none';
+        });
+        
+        // Show the selected form
+        const selectedForm = document.getElementById(`${projectType}-form`);
+        if (selectedForm) {
+            selectedForm.style.display = 'block';
+        }
+        
+        // Update project title
+        const projectTitle = card.querySelector('h3').textContent;
+        document.getElementById('project-title').textContent = projectTitle;
+        
+        // Load workflow steps
+        loadWorkflowSteps(projectType);
     });
 });
 
+// Load Workflow Steps
+function loadWorkflowSteps(projectType) {
+    const workflow = workflows[projectType];
+    if (!workflow) return;
+
+    workflowSteps.innerHTML = '';
+    
+    workflow.steps.forEach((step, index) => {
+        const stepElement = document.createElement('div');
+        stepElement.className = 'workflow-step';
+        stepElement.innerHTML = `
+            <div class="step-header">
+                <div class="step-number">${index + 1}</div>
+                <div class="step-title">
+                    <h4>${step.name}</h4>
+                </div>
+            </div>
+            <div class="step-description">${step.description}</div>
+            <div class="step-checklist">
+                ${step.checklist.map(item => `
+                    <div class="checklist-item">
+                        <input type="checkbox" id="step-${index}-${item.replace(/\s+/g, '-')}">
+                        <label for="step-${index}-${item.replace(/\s+/g, '-')}">${item}</label>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+        workflowSteps.appendChild(stepElement);
+    });
+}
+
+// Event Listeners
 addTaskBtn.addEventListener('click', addTask);
 taskInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') addTask();
@@ -182,6 +210,121 @@ newProjectBtn.addEventListener('click', showProjectSelection);
 searchProjects.addEventListener('input', filterProjects);
 filterType.addEventListener('change', filterProjects);
 
+// Tab Switching
+const tabButtons = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Remove active class from all buttons and contents
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        tabContents.forEach(content => content.classList.remove('active'));
+        
+        // Add active class to clicked button
+        button.classList.add('active');
+        
+        // Show corresponding content
+        const tabId = button.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+    });
+});
+
+// Form Validation
+const forms = document.querySelectorAll('form');
+forms.forEach(form => {
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const requiredFields = form.querySelectorAll('[required]');
+        let isValid = true;
+        
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                isValid = false;
+                field.classList.add('error');
+                
+                // Add error message if it doesn't exist
+                if (!field.nextElementSibling?.classList.contains('error-message')) {
+                    const errorMessage = document.createElement('div');
+                    errorMessage.className = 'error-message';
+                    errorMessage.textContent = 'This field is required';
+                    field.parentNode.insertBefore(errorMessage, field.nextSibling);
+                }
+            } else {
+                field.classList.remove('error');
+                const errorMessage = field.nextElementSibling;
+                if (errorMessage?.classList.contains('error-message')) {
+                    errorMessage.remove();
+                }
+            }
+        });
+        
+        if (isValid) {
+            // Handle form submission
+            console.log('Form submitted successfully');
+            // You can add your form submission logic here
+        }
+    });
+});
+
+// Portfolio Image Upload and Management
+const portfolioUpload = document.getElementById('portfolio-upload');
+const portfolioImages = document.querySelector('.portfolio-images');
+
+if (portfolioUpload) {
+    portfolioUpload.addEventListener('change', (e) => {
+        const files = e.target.files;
+        
+        for (let file of files) {
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                
+                reader.onload = (e) => {
+                    const imageContainer = document.createElement('div');
+                    imageContainer.className = 'portfolio-image';
+                    
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    
+                    const actions = document.createElement('div');
+                    actions.className = 'image-actions';
+                    
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.innerHTML = '×';
+                    deleteBtn.title = 'Delete image';
+                    deleteBtn.addEventListener('click', () => {
+                        imageContainer.remove();
+                    });
+                    
+                    actions.appendChild(deleteBtn);
+                    imageContainer.appendChild(img);
+                    imageContainer.appendChild(actions);
+                    portfolioImages.appendChild(imageContainer);
+                };
+                
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        // Reset the input
+        portfolioUpload.value = '';
+    });
+}
+
+// Project Type Toggle
+const projectTypeSelect = document.getElementById('project-type');
+const gameInfoSection = document.querySelector('.game-info-section');
+
+if (projectTypeSelect && gameInfoSection) {
+    projectTypeSelect.addEventListener('change', (e) => {
+        if (e.target.value === 'game') {
+            gameInfoSection.style.display = 'block';
+        } else {
+            gameInfoSection.style.display = 'none';
+        }
+    });
+}
+
 // Functions
 function selectProject(projectType) {
     currentProject = projectType;
@@ -193,23 +336,26 @@ function selectProject(projectType) {
     projectSelection.style.display = 'none';
     projectHistory.style.display = 'none';
     
-    // Create workflow steps with checklists
+    // Create workflow steps with checklists and explanations
     workflowSteps.innerHTML = '';
     workflow.steps.forEach((step, index) => {
         const stepElement = document.createElement('div');
         stepElement.className = 'workflow-step';
         stepElement.innerHTML = `
-            <div class="step-number">${index + 1}</div>
-            <div class="step-content">
-                <h4>${step.name}</h4>
-                <div class="step-checklist">
-                    ${step.checklist.map(item => `
-                        <div class="checklist-item">
-                            <input type="checkbox" id="step-${index}-${item.replace(/\s+/g, '-')}">
-                            <label for="step-${index}-${item.replace(/\s+/g, '-')}">${item}</label>
-                        </div>
-                    `).join('')}
+            <div class="step-header">
+                <div class="step-number">${index + 1}</div>
+                <div class="step-title">
+                    <h4>${step.name}</h4>
                 </div>
+            </div>
+            <div class="step-description">${step.description}</div>
+            <div class="step-checklist">
+                ${step.checklist.map(item => `
+                    <div class="checklist-item">
+                        <input type="checkbox" id="step-${index}-${item.replace(/\s+/g, '-')}">
+                        <label for="step-${index}-${item.replace(/\s+/g, '-')}">${item}</label>
+                    </div>
+                `).join('')}
             </div>
         `;
         workflowSteps.appendChild(stepElement);
@@ -231,7 +377,8 @@ function addTask() {
     if (taskText) {
         tasks.push({
             text: taskText,
-            completed: false
+            completed: false,
+            date: new Date().toLocaleDateString()
         });
         taskInput.value = '';
         updateTasksList();
@@ -239,21 +386,25 @@ function addTask() {
 }
 
 function updateTasksList() {
-    tasksList.innerHTML = '';
+    const taskChecklist = document.querySelector('.task-checklist');
+    taskChecklist.innerHTML = '';
+    
     tasks.forEach((task, index) => {
-        const li = document.createElement('li');
-        li.innerHTML = `
-            <span class="task-text ${task.completed ? 'completed' : ''}">${task.text}</span>
+        const taskElement = document.createElement('div');
+        taskElement.className = `task-checklist-item ${task.completed ? 'completed' : ''}`;
+        taskElement.innerHTML = `
+            <input type="checkbox" id="task-${index}" ${task.completed ? 'checked' : ''} onchange="toggleTask(${index})">
+            <div class="task-content">
+                <span class="task-text">${task.text}</span>
+                <span class="task-date">Added: ${task.date}</span>
+            </div>
             <div class="task-actions">
-                <button class="btn-complete" onclick="toggleTask(${index})">
-                    <i class="fas fa-${task.completed ? 'check-circle' : 'circle'}"></i>
-                </button>
                 <button class="btn-delete" onclick="deleteTask(${index})">
                     <i class="fas fa-trash"></i>
                 </button>
             </div>
         `;
-        tasksList.appendChild(li);
+        taskChecklist.appendChild(taskElement);
     });
 }
 
@@ -524,4 +675,193 @@ function generateEstimate() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+}
+
+// Initialize Select2 for better select inputs
+document.addEventListener('DOMContentLoaded', () => {
+    const selectElements = document.querySelectorAll('select');
+    selectElements.forEach(select => {
+        if (select.multiple) {
+            // Initialize multiple select
+            select.addEventListener('change', () => {
+                const selectedOptions = Array.from(select.selectedOptions).map(option => option.value);
+                console.log('Selected options:', selectedOptions);
+            });
+        }
+    });
+});
+
+function showWorkflowForm(projectType) {
+    // Hide all forms first
+    const allForms = document.querySelectorAll('.workflow-form');
+    allForms.forEach(form => {
+        form.classList.add('hidden');
+    });
+
+    // Show the selected form
+    const selectedForm = document.getElementById(`form-${projectType}`);
+    if (selectedForm) {
+        selectedForm.classList.remove('hidden');
+        // Scroll to the form
+        selectedForm.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+function saveFormData(formId) {
+    const form = document.getElementById(formId);
+    if (!form) return;
+
+    const formData = new FormData(form);
+    const data = {};
+
+    // Handle file inputs
+    const fileInputs = form.querySelectorAll('input[type="file"]');
+    fileInputs.forEach(input => {
+        if (input.files.length > 0) {
+            data[input.name] = Array.from(input.files).map(file => ({
+                name: file.name,
+                type: file.type,
+                size: file.size
+            }));
+        }
+    });
+
+    // Handle checkbox groups
+    const checkboxGroups = form.querySelectorAll('.checkbox-group');
+    checkboxGroups.forEach(group => {
+        const checkboxes = group.querySelectorAll('input[type="checkbox"]');
+        const selectedValues = Array.from(checkboxes)
+            .filter(checkbox => checkbox.checked)
+            .map(checkbox => checkbox.value);
+        data[checkboxes[0].name] = selectedValues;
+    });
+
+    // Handle other form elements
+    Array.from(form.elements).forEach(input => {
+        if (input.type !== "button" && input.type !== "file" && input.type !== "checkbox") {
+            data[input.name] = input.value;
+        }
+    });
+
+    // Save to localStorage
+    localStorage.setItem(formId, JSON.stringify(data));
+    alert("Project plan saved successfully!");
+}
+
+function loadFormData(formId) {
+    const savedData = localStorage.getItem(formId);
+    if (savedData) {
+        const formData = JSON.parse(savedData);
+        const form = document.getElementById(formId);
+
+        // Handle file inputs
+        const fileInputs = form.querySelectorAll('input[type="file"]');
+        fileInputs.forEach(input => {
+            if (formData[input.name]) {
+                // Note: We can't actually set the file input value for security reasons
+                // We can only show the previously selected file names
+                const fileList = formData[input.name];
+                if (fileList.length > 0) {
+                    input.nextElementSibling.textContent = fileList.map(file => file.name).join(', ');
+                }
+            }
+        });
+
+        // Handle checkbox groups
+        const checkboxGroups = form.querySelectorAll('.checkbox-group');
+        checkboxGroups.forEach(group => {
+            const checkboxes = group.querySelectorAll('input[type="checkbox"]');
+            const selectedValues = formData[checkboxes[0].name] || [];
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectedValues.includes(checkbox.value);
+            });
+        });
+
+        // Handle other form elements
+        Array.from(form.elements).forEach(input => {
+            if (input.type !== "button" && input.type !== "file" && input.type !== "checkbox") {
+                if (formData[input.name]) {
+                    input.value = formData[input.name];
+                }
+            }
+        });
+    }
+}
+
+// Initialize the page
+document.addEventListener('DOMContentLoaded', function() {
+    // Load saved data for all forms
+    const forms = document.querySelectorAll('.workflow-form');
+    forms.forEach(form => {
+        loadFormData(form.querySelector('form').id);
+    });
+
+    // Add event listeners for tag generation
+    const textareas = document.querySelectorAll('textarea');
+    textareas.forEach(textarea => {
+        textarea.addEventListener('input', function() {
+            const formId = this.closest('form').id;
+            updateTagSuggestions(formId, this.value);
+        });
+    });
+});
+
+function updateSponsorCredits() {
+    const sponsorSelect = event.target;
+    const manualCredits = document.getElementById('manual-credits');
+    const creatorName = document.getElementById('creator-name');
+    const landmark = document.getElementById('landmark');
+
+    if (sponsorSelect.value === 'none') {
+        manualCredits.classList.remove('hidden');
+        creatorName.required = true;
+        landmark.required = true;
+    } else if (sponsorSelect.value) {
+        manualCredits.classList.add('hidden');
+        creatorName.required = false;
+        landmark.required = false;
+        // Auto-fill sponsor details
+        const sponsor = sponsors[sponsorSelect.value];
+        if (sponsor) {
+            creatorName.value = sponsor.name;
+            landmark.value = sponsor.landmark;
+        }
+    }
+}
+
+function generateTags(content) {
+    // Simple tag generation based on content
+    const words = content.toLowerCase().split(/\s+/);
+    const commonWords = new Set(['the', 'and', 'a', 'an', 'in', 'on', 'at', 'to', 'for', 'with', 'by']);
+    const tags = new Set();
+
+    words.forEach(word => {
+        if (word.length > 3 && !commonWords.has(word)) {
+            tags.add(word);
+        }
+    });
+
+    return Array.from(tags);
+}
+
+function updateTagSuggestions(formId, content) {
+    const suggestedTags = document.getElementById('suggested-tags');
+    const projectType = formId.replace('Form', '').toLowerCase();
+    const baseTags = tagSuggestions[projectType] || [];
+    const contentTags = generateTags(content);
+    const allTags = [...new Set([...baseTags, ...contentTags])];
+
+    suggestedTags.innerHTML = allTags.map(tag => 
+        `<div class="tag-suggestion" onclick="addTag('${tag}')">${tag}</div>`
+    ).join('');
+}
+
+function addTag(tag) {
+    const tagsInput = document.getElementById('tags');
+    const currentTags = tagsInput.value.split(',').map(t => t.trim()).filter(t => t);
+    
+    if (!currentTags.includes(tag)) {
+        currentTags.push(tag);
+        tagsInput.value = currentTags.join(', ');
+    }
 } 

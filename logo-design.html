@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo Design - Grimly's Workflow Hub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="blog-planner.html">Blog Planner</a></li>
+                <li><a href="project-workflow.html">Project Workflow</a></li>
+            </ul>
+        </nav>
+        <h1>Logo Design Project</h1>
+    </header>
+
+    <main>
+        <form id="logoDesignForm">
+            <fieldset>
+                <legend>🎨 Logo Design Details</legend>
+                <div class="form-group">
+                    <label for="logo-brand">Brand Name:</label>
+                    <input type="text" id="logo-brand" name="logo-brand" required>
+                </div>
+                <div class="form-group">
+                    <label for="logo-vision">Brand Vision:</label>
+                    <textarea id="logo-vision" name="logo-vision" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="logo-style">Style Direction:</label>
+                    <input type="text" id="logo-style" name="logo-style" placeholder="e.g., Minimalist, Retro, Bold, Delicate" required>
+                </div>
+                <div class="form-group">
+                    <label for="logo-deadline">Deadline:</label>
+                    <input type="date" id="logo-deadline" name="logo-deadline" required>
+                </div>
+                <div class="form-group">
+                    <label for="logo-inspiration">Inspiration Images:</label>
+                    <input type="file" id="logo-inspiration" name="logo-inspiration" accept="image/*" multiple>
+                </div>
+                <div class="form-group">
+                    <label for="logo-notes">Additional Notes:</label>
+                    <textarea id="logo-notes" name="logo-notes" placeholder="Any additional requirements or preferences..."></textarea>
+                </div>
+            </fieldset>
+
+            <button type="button" onclick="saveFormData()">Save Project</button>
+        </form>
+    </main>
+
+    <script>
+        function saveFormData() {
+            const form = document.getElementById('logoDesignForm');
+            const formData = {};
+
+            // Handle text, date inputs, textareas, and file inputs
+            const inputs = form.querySelectorAll('input[type="text"], input[type="date"], textarea, input[type="file"]');
+            inputs.forEach(input => {
+                if (input.type === 'file') {
+                    // For file inputs, store the file names
+                    const files = input.files;
+                    if (files.length > 0) {
+                        formData[input.name] = Array.from(files).map(file => file.name);
+                    }
+                } else {
+                    formData[input.name] = input.value;
+                }
+            });
+
+            localStorage.setItem('logoDesignForm', JSON.stringify(formData));
+            alert("Logo design project saved successfully!");
+        }
+
+        function loadFormData() {
+            const savedData = localStorage.getItem('logoDesignForm');
+            if (savedData) {
+                const formData = JSON.parse(savedData);
+                const form = document.getElementById('logoDesignForm');
+
+                // Restore inputs
+                const inputs = form.querySelectorAll('input[type="text"], input[type="date"], textarea');
+                inputs.forEach(input => {
+                    if (formData[input.name]) {
+                        input.value = formData[input.name];
+                    }
+                });
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadFormData);
+    </script>
+</body>
+</html> 

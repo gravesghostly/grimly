@@ -2,14 +2,17 @@
     --primary-color: #4a90e2;
     --secondary-color: #2c3e50;
     --accent-color: #e74c3c;
-    --background-color: #f5f6fa;
-    --text-color: #2c3e50;
+    --text-color: #333;
+    --light-text: #666;
+    --background-color: #f5f7fa;
     --card-background: #ffffff;
-    --border-radius: 8px;
-    --box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --border-color: #ddd;
     --success-color: #2ecc71;
-    --warning-color: #f1c40f;
+    --warning-color: #f39c12;
     --error-color: #e74c3c;
+    --border-radius: 12px;
+    --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --transition-speed: 0.3s;
 }
 
 * {
@@ -20,9 +23,9 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
     line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--background-color);
 }
 
 .container {
@@ -37,9 +40,173 @@ header {
 }
 
 header h1 {
-    color: var(--primary-color);
     font-size: 2.5rem;
+    color: var(--secondary-color);
     margin-bottom: 1rem;
+}
+
+/* Form Sections */
+.form-section {
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--box-shadow);
+    transition: transform var(--transition-speed);
+}
+
+.form-section:hover {
+    transform: translateY(-2px);
+}
+
+.form-section h2, .form-section h3 {
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+}
+
+/* Form Groups */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--secondary-color);
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Buttons */
+.btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all var(--transition-speed);
+}
+
+.btn:hover {
+    background-color: #357abd;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Form Actions */
+.form-actions {
+    margin-top: 2rem;
+    text-align: right;
+}
+
+/* Hidden Class */
+.hidden {
+    display: none;
+}
+
+/* Project Selector */
+#project-selector {
+    text-align: center;
+}
+
+#project-selector select {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Workflow Forms */
+.workflow-form {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .form-section {
+        padding: 1.5rem;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        padding: 0.7rem;
+    }
+}
+
+/* Form Validation Styles */
+.form-group input:invalid,
+.form-group textarea:invalid,
+.form-group select:invalid {
+    border-color: var(--error-color);
+}
+
+.form-group input:valid,
+.form-group textarea:valid,
+.form-group select:valid {
+    border-color: var(--success-color);
+}
+
+/* Select Styling */
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+    padding-right: 2.5rem;
 }
 
 .header-actions {
@@ -49,11 +216,12 @@ header h1 {
     margin-top: 1rem;
 }
 
+/* Project Types Grid */
 .project-types {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
-    margin-bottom: 3rem;
+    margin-top: 2rem;
 }
 
 .project-card {
@@ -63,28 +231,47 @@ header h1 {
     box-shadow: var(--box-shadow);
     text-align: center;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: all var(--transition-speed);
+    border: 1px solid var(--border-color);
 }
 
 .project-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 .project-card i {
     font-size: 2.5rem;
     color: var(--primary-color);
     margin-bottom: 1rem;
+    transition: transform var(--transition-speed);
+}
+
+.project-card:hover i {
+    transform: scale(1.1);
 }
 
 .project-card h3 {
-    margin-bottom: 0.5rem;
     color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
 }
 
 .project-card p {
-    color: #666;
+    color: var(--light-text);
     font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .project-types {
+        grid-template-columns: 1fr;
+    }
+    
+    .project-card {
+        padding: 1.5rem;
+    }
 }
 
 .workflow-container {
@@ -92,6 +279,7 @@ header h1 {
     padding: 2rem;
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
+    border: 1px solid var(--border-color);
 }
 
 .workflow-header {
@@ -100,6 +288,8 @@ header h1 {
     align-items: flex-start;
     margin-bottom: 2rem;
     gap: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border-color);
 }
 
 .project-info {
@@ -114,30 +304,21 @@ header h1 {
 }
 
 .client-info input {
-    padding: 0.5rem;
-    border: 1px solid #ddd;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
     font-size: 1rem;
+    transition: border-color var(--transition-speed);
+}
+
+.client-info input:focus {
+    border-color: var(--primary-color);
+    outline: none;
 }
 
 .project-actions {
     display: flex;
     gap: 1rem;
-}
-
-.btn {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 0.8rem 1.5rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-}
-
-.btn:hover {
-    background-color: #357abd;
 }
 
 .workflow-steps {
@@ -149,11 +330,16 @@ header h1 {
 
 .workflow-step {
     background: #f8f9fa;
-    padding: 1rem;
+    padding: 1.5rem;
     border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+}
+
+.step-header {
     display: flex;
-    gap: 1rem;
     align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 .step-number {
@@ -166,30 +352,128 @@ header h1 {
     align-items: center;
     justify-content: center;
     font-weight: bold;
+    flex-shrink: 0;
 }
 
-.step-content {
+.step-title {
     flex: 1;
 }
 
-.step-content h4 {
-    margin-bottom: 0.5rem;
+.step-title h4 {
+    margin: 0;
+    color: var(--secondary-color);
+}
+
+.step-description {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    padding-left: 2.5rem;
 }
 
 .step-checklist {
-    margin-top: 0.5rem;
+    background: white;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-top: 1rem;
 }
 
 .checklist-item {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-bottom: 1px solid #eee;
+}
+
+.checklist-item:last-child {
+    border-bottom: none;
 }
 
 .checklist-item input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
+    margin-top: 0.25rem;
+    cursor: pointer;
+}
+
+.checklist-item label {
+    flex: 1;
+    cursor: pointer;
+    line-height: 1.4;
+}
+
+.checklist-item.completed label {
+    color: #666;
+    text-decoration: line-through;
+}
+
+.checklist-item .task-actions {
+    display: flex;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.checklist-item:hover .task-actions {
+    opacity: 1;
+}
+
+.task-checklist {
+    background: white;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-top: 1rem;
+}
+
+.task-checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-bottom: 1px solid #eee;
+}
+
+.task-checklist-item:last-child {
+    border-bottom: none;
+}
+
+.task-checklist-item input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-top: 0.25rem;
+    cursor: pointer;
+}
+
+.task-checklist-item .task-content {
+    flex: 1;
+}
+
+.task-checklist-item .task-text {
+    display: block;
+    line-height: 1.4;
+}
+
+.task-checklist-item .task-date {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 0.25rem;
+}
+
+.task-checklist-item.completed .task-text {
+    color: #666;
+    text-decoration: line-through;
+}
+
+.task-checklist-item .task-actions {
+    display: flex;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.task-checklist-item:hover .task-actions {
+    opacity: 1;
 }
 
 .project-details {
@@ -385,34 +669,388 @@ header h1 {
     color: #999;
 }
 
+/* Project Details Tabs */
+.project-details-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    color: var(--text-color);
+    cursor: pointer;
+    position: relative;
+    transition: all var(--transition-speed);
+    font-weight: 500;
+}
+
+.tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-color);
+    transform: scaleX(0);
+    transition: transform var(--transition-speed);
+}
+
+.tab-btn:hover {
+    color: var(--primary-color);
+}
+
+.tab-btn.active {
+    color: var(--primary-color);
+}
+
+.tab-btn.active::after {
+    transform: scaleX(1);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Game Information Section */
+.game-info-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Portfolio Gallery */
+.portfolio-gallery {
+    margin-top: 2rem;
+}
+
+.portfolio-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.portfolio-image {
+    position: relative;
+    aspect-ratio: 16/9;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    transition: transform var(--transition-speed);
+}
+
+.portfolio-image:hover {
+    transform: scale(1.02);
+}
+
+.portfolio-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.portfolio-image .image-actions {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: opacity var(--transition-speed);
+}
+
+.portfolio-image:hover .image-actions {
+    opacity: 1;
+}
+
+.image-actions button {
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+}
+
+.image-actions button:hover {
+    background: rgba(0, 0, 0, 0.8);
+    transform: scale(1.1);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.project-card,
+.workflow-container,
+.form-section {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Project Type Forms */
+.project-type-form {
+    display: none;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(74, 144, 226, 0.05);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    transition: all var(--transition-speed);
+}
+
+.project-type-form.active {
+    display: block;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.project-type-form h3 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.project-type-form select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    background-color: var(--card-background);
+    transition: all var(--transition-speed);
+}
+
+.project-type-form select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
+}
+
+.project-type-form select[multiple] {
+    height: 120px;
+}
+
+.project-type-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Form Group Variations */
+.form-group.half-width {
+    grid-column: span 2;
+}
+
+/* Form Grid Layout */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Form Labels */
+.form-group label {
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* Form Inputs */
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: all var(--transition-speed);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
+}
+
+/* Form Validation States */
+.form-group input.error,
+.form-group textarea.error,
+.form-group select.error {
+    border-color: var(--error-color);
+}
+
+.form-group .error-message {
+    color: var(--error-color);
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+/* Responsive Form Layout */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.half-width {
+        grid-column: 1;
+    }
+}
+
+/* Tags Container */
+.tags-container {
+    position: relative;
+}
+
+.suggested-tags {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--card-background);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    display: none;
+    z-index: 10;
+    box-shadow: var(--box-shadow);
+}
+
+.tags-container:focus-within .suggested-tags {
+    display: block;
+}
+
+.tag-suggestion {
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    transition: background-color var(--transition-speed);
+}
+
+.tag-suggestion:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Form Fieldsets */
+.form-fieldset {
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.form-fieldset legend {
+    font-weight: 600;
+    color: var(--secondary-color);
+    padding: 0 0.5rem;
+    font-size: 1.1rem;
+}
+
+/* Checkbox Groups */
+.checkbox-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    cursor: pointer;
+}
+
+/* File Inputs */
+input[type="file"] {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background: white;
+    cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+    padding: 0.5rem 1rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+input[type="file"]::file-selector-button:hover {
+    background: #357abd;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
-    .container {
+    .form-fieldset {
         padding: 1rem;
     }
 
-    .project-types {
-        grid-template-columns: 1fr;
-    }
-
-    .workflow-header {
+    .checkbox-group {
         flex-direction: column;
+        gap: 0.5rem;
     }
 
-    .project-actions {
-        width: 100%;
-        justify-content: space-between;
+    .form-group input[type="file"] {
+        font-size: 0.9rem;
     }
+}
 
-    .task-input {
-        flex-direction: column;
-    }
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: border-color var(--transition-speed);
+}
 
-    .asset-input {
-        grid-template-columns: 1fr;
-    }
+.form-group input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
+}
 
-    .search-bar {
-        flex-direction: column;
-    }
+.form-group input[type="text"]::placeholder {
+    color: var(--light-text);
+    opacity: 0.7;
 } 
