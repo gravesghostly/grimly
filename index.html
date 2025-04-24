@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Workflow Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Project Workflow Tracker</h1>
+            <p>Select a project type to get started</p>
+        </header>
+
+        <div class="project-types">
+            <div class="project-card" data-type="logo-personal">
+                <i class="fas fa-paint-brush"></i>
+                <h3>Logo (Personal)</h3>
+                <p>Personal logo design workflow</p>
+            </div>
+            <div class="project-card" data-type="logo-commission">
+                <i class="fas fa-handshake"></i>
+                <h3>Logo (Commission)</h3>
+                <p>Commissioned logo design workflow</p>
+            </div>
+            <div class="project-card" data-type="blog-secondlife">
+                <i class="fas fa-blog"></i>
+                <h3>Blog (Second Life)</h3>
+                <p>Second Life blog content workflow</p>
+            </div>
+            <div class="project-card" data-type="blog-gaming">
+                <i class="fas fa-gamepad"></i>
+                <h3>Blog (Gaming)</h3>
+                <p>Gaming blog content workflow</p>
+            </div>
+            <div class="project-card" data-type="game-ui">
+                <i class="fas fa-desktop"></i>
+                <h3>Game UI</h3>
+                <p>Game user interface design workflow</p>
+            </div>
+            <div class="project-card" data-type="game-design">
+                <i class="fas fa-dice"></i>
+                <h3>Game Design</h3>
+                <p>Game design and development workflow</p>
+            </div>
+            <div class="project-card" data-type="asset-design">
+                <i class="fas fa-cube"></i>
+                <h3>Asset Design</h3>
+                <p>Game asset design workflow</p>
+            </div>
+        </div>
+
+        <div class="workflow-container" style="display: none;">
+            <div class="workflow-header">
+                <h2 id="project-title">Project Workflow</h2>
+                <button class="btn" id="generate-estimate">Generate Estimate</button>
+            </div>
+            
+            <div class="workflow-steps">
+                <!-- Steps will be dynamically added here -->
+            </div>
+
+            <div class="task-list">
+                <h3>Task List</h3>
+                <div class="task-input">
+                    <input type="text" id="new-task" placeholder="Add new task...">
+                    <button class="btn" id="add-task">Add</button>
+                </div>
+                <ul id="tasks">
+                    <!-- Tasks will be dynamically added here -->
+                </ul>
+            </div>
+
+            <div class="reference-section">
+                <h3>Reference Materials</h3>
+                <div class="upload-area">
+                    <input type="file" id="file-upload" multiple accept="image/*">
+                    <label for="file-upload" class="upload-label">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <span>Upload Reference Images</span>
+                    </label>
+                </div>
+                <div class="reference-gallery">
+                    <!-- Uploaded images will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
