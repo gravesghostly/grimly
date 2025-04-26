@@ -4,216 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog Planner - Grimly's Workflow Hub</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .hidden {
-            display: none;
-        }
-        
-        .form-section {
-            opacity: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: opacity 0.3s ease, max-height 0.3s ease;
-        }
-        
-        .form-section.visible {
-            opacity: 1;
-            max-height: 5000px;
-        }
-
-        .collapsible {
-            cursor: pointer;
-            padding: 10px;
-            width: 100%;
-            border: none;
-            text-align: left;
-            outline: none;
-            background-color: var(--accent-color);
-            color: var(--text-color);
-            border-radius: 4px;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .collapsible:hover {
-            background-color: var(--accent-hover);
-        }
-
-        .collapsible::after {
-            content: '▼';
-            font-size: 12px;
-            transition: transform 0.3s ease;
-        }
-
-        .collapsible.active::after {
-            transform: rotate(180deg);
-        }
-
-        .collapsible-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            margin-bottom: 20px;
-        }
-
-        .collapsible-content.visible {
-            max-height: 5000px;
-        }
-
-        .category-buttons {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .category-btn {
-            padding: 10px;
-            border: 2px solid var(--accent-color);
-            background-color: transparent;
-            color: var(--text-color);
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        .category-btn:hover {
-            background-color: var(--accent-color);
-            color: var(--text-color);
-        }
-
-        .category-btn.active {
-            background-color: var(--accent-color);
-            color: var(--text-color);
-        }
-
-        .saved-plans {
-            margin: 20px 0;
-            padding: 20px;
-            background: var(--bg-secondary);
-            border-radius: 8px;
-        }
-
-        .saved-plans h2 {
-            margin-bottom: 15px;
-        }
-
-        .plan-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .plan-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            margin-bottom: 8px;
-            background: var(--bg-primary);
-            border-radius: 4px;
-            border: 1px solid var(--accent-color);
-        }
-
-        .plan-info {
-            flex-grow: 1;
-        }
-
-        .plan-title {
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-
-        .plan-date {
-            font-size: 0.9em;
-            color: var(--text-secondary);
-        }
-
-        .plan-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        .plan-actions button {
-            padding: 5px 10px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-            background: var(--accent-color);
-            color: var(--text-color);
-        }
-
-        .plan-actions button:hover {
-            background: var(--accent-hover);
-        }
-
-        #save-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: var(--bg-primary);
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-        }
-
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="blog-planner.html" class="active">Blog Planner</a></li>
-                <li><a href="project-workflow.html">Project Workflow</a></li>
-            </ul>
-        </nav>
-        <h1>Blog Planner</h1>
+        <a href="index.html"><img src="grimlylogo_v1_transparent.png" alt="Grimly Design Studio Logo" class="site-logo"></a>
     </header>
 
     <main>
-        <div class="saved-plans">
-            <h2>📝 Saved Blog Plans</h2>
-            <div id="saved-plans-list" class="plan-list">
+        <div class="form-container">
+            <h2><i class="fa-solid fa-pen-to-square"></i> Saved Blog Plans</h2>
+            <div id="saved-plans-list" class="journal-entries">
                 <!-- Saved plans will be listed here -->
             </div>
         </div>
 
-        <form id="blogForm">
+        <form id="blogForm" class="form-container">
             <!-- Blog Category Selection -->
             <fieldset>
-                <legend>📋 Blog Category</legend>
+                <legend><i class="fa-solid fa-list"></i> Blog Category</legend>
                 <div class="form-group">
                     <label>Select Blog Category:</label>
-                    <div class="category-buttons">
-                        <button type="button" class="category-btn" onclick="selectMainCategory('second-life')" data-category="second-life">🌐 Second Life</button>
-                        <button type="button" class="category-btn" onclick="selectMainCategory('gaming')" data-category="gaming">🎮 Gaming</button>
+                    <div class="form-grid">
+                        <button type="button" class="secondary-button" onclick="selectMainCategory('second-life')" data-category="second-life"><i class="fa-solid fa-globe"></i> Second Life</button>
+                        <button type="button" class="secondary-button" onclick="selectMainCategory('gaming')" data-category="gaming"><i class="fa-solid fa-gamepad"></i> Gaming</button>
                     </div>
                     <input type="hidden" id="blog-category" name="blog-category" required>
                 </div>
             </fieldset>
 
             <!-- Second Life Form -->
-            <div id="second-life-form" class="form-section">
+            <div id="second-life-form" class="form-section hidden">
                 <!-- Blog Setup -->
-                <button type="button" class="collapsible" onclick="toggleSection(this)">🛠 Blog Setup</button>
-                <div class="collapsible-content">
+                <button type="button" class="secondary-button mb-2" onclick="toggleSection(this)"><i class="fa-solid fa-wrench"></i> Blog Setup</button>
+                <div class="form-section hidden">
                     <fieldset>
                         <div class="form-group">
                             <label for="sl-title">Blog Post Title:</label>
@@ -222,11 +48,11 @@
 
                         <div class="form-group">
                             <label>Blog Category:</label>
-                            <div class="category-buttons">
-                                <button type="button" class="category-btn" onclick="selectCategory('fashion')" data-category="fashion">👗 Fashion</button>
-                                <button type="button" class="category-btn" onclick="selectCategory('event')" data-category="event">🎉 Event</button>
-                                <button type="button" class="category-btn" onclick="selectCategory('tutorial')" data-category="tutorial">📚 Tutorial</button>
-                                <button type="button" class="category-btn" onclick="selectCategory('sponsor')" data-category="sponsor">🌟 Sponsor Spotlight</button>
+                            <div class="form-grid">
+                                <button type="button" class="secondary-button" onclick="selectCategory('fashion')" data-category="fashion"><i class="fa-solid fa-shirt"></i> Fashion</button>
+                                <button type="button" class="secondary-button" onclick="selectCategory('event')" data-category="event"><i class="fa-solid fa-calendar-days"></i> Event</button>
+                                <button type="button" class="secondary-button" onclick="selectCategory('tutorial')" data-category="tutorial"><i class="fa-solid fa-book"></i> Tutorial</button>
+                                <button type="button" class="secondary-button" onclick="selectCategory('sponsor')" data-category="sponsor"><i class="fa-solid fa-star"></i> Sponsor Spotlight</button>
                             </div>
                             <input type="hidden" id="sl-topic" name="sl-topic" required>
                         </div>
@@ -241,7 +67,7 @@
                 <!-- Fashion Section -->
                 <div id="fashion-section" class="sl-subsection form-section">
                     <fieldset>
-                        <legend>👗 Fashion Details</legend>
+                        <legend><i class="fa-solid fa-shirt"></i> Fashion Details</legend>
                         <div class="form-group">
                             <label for="outfit-name">Outfit Name:</label>
                             <input type="text" id="outfit-name" name="outfit-name" required>
@@ -301,7 +127,7 @@
                 <!-- Event Section -->
                 <div id="event-section" class="sl-subsection form-section">
                     <fieldset>
-                        <legend>🎉 Event Details</legend>
+                        <legend><i class="fa-solid fa-calendar-days"></i> Event Details</legend>
                         <div class="form-group">
                             <label for="event-name">Event Name:</label>
                             <input type="text" id="event-name" name="event-name" required>
@@ -371,7 +197,7 @@
                 <!-- Tutorial Section -->
                 <div id="tutorial-section" class="sl-subsection form-section">
                     <fieldset>
-                        <legend>📚 Tutorial Details</legend>
+                        <legend><i class="fa-solid fa-book"></i> Tutorial Details</legend>
                         <div class="form-group">
                             <label for="tutorial-topic">Tutorial Topic:</label>
                             <input type="text" id="tutorial-topic" name="tutorial-topic" required>
@@ -442,7 +268,7 @@
                 <!-- Sponsor Spotlight Section -->
                 <div id="sponsor-section" class="sl-subsection form-section">
                     <fieldset>
-                        <legend>🌟 Sponsor Spotlight</legend>
+                        <legend><i class="fa-solid fa-star"></i> Sponsor Spotlight</legend>
                         <div class="form-group">
                             <label for="sponsor-intro">Opening Paragraph:</label>
                             <textarea id="sponsor-intro" name="sponsor-intro" placeholder="Share your connection to the brand, how you discovered them, and why they stand out..." required></textarea>
@@ -503,8 +329,8 @@
                 </div>
 
                 <!-- Writing & Editing -->
-                <button type="button" class="collapsible" onclick="toggleSection(this)">✏️ Writing & Editing</button>
-                <div class="collapsible-content">
+                <button type="button" class="secondary-button mb-2" onclick="toggleSection(this)"><i class="fa-solid fa-pen"></i> Writing & Editing</button>
+                <div class="form-section hidden">
                     <fieldset>
                         <div class="form-group">
                             <label>
@@ -536,7 +362,7 @@
             </div>
 
             <!-- Gaming Form -->
-            <div id="gaming-form" class="form-section">
+            <div id="gaming-form" class="form-section hidden">
                 <!-- Blog Setup -->
                 <fieldset>
                     <div class="form-group">
@@ -546,11 +372,11 @@
 
                     <div class="form-group">
                         <label>Gaming Subcategory:</label>
-                        <div class="category-buttons">
-                            <button type="button" class="category-btn" onclick="selectGamingCategory('dev-news')" data-category="dev-news">📰 Game Development News</button>
-                            <button type="button" class="category-btn" onclick="selectGamingCategory('reviews')" data-category="reviews">⭐ Game Reviews</button>
-                            <button type="button" class="category-btn" onclick="selectGamingCategory('general')" data-category="general">🎮 General Gaming</button>
-                            <button type="button" class="category-btn" onclick="selectGamingCategory('virtual-photo')" data-category="virtual-photo">📸 Virtual Photography</button>
+                        <div class="form-grid">
+                            <button type="button" class="secondary-button" onclick="selectGamingCategory('dev-news')" data-category="dev-news"><i class="fa-solid fa-newspaper"></i> Game Development News</button>
+                            <button type="button" class="secondary-button" onclick="selectGamingCategory('reviews')" data-category="reviews"><i class="fa-solid fa-star"></i> Game Reviews</button>
+                            <button type="button" class="secondary-button" onclick="selectGamingCategory('general')" data-category="general"><i class="fa-solid fa-gamepad"></i> General Gaming</button>
+                            <button type="button" class="secondary-button" onclick="selectGamingCategory('virtual-photo')" data-category="virtual-photo"><i class="fa-solid fa-camera"></i> Virtual Photography</button>
                         </div>
                         <input type="hidden" id="gaming-subcategory" name="gaming-subcategory" required>
                     </div>
@@ -564,7 +390,7 @@
                 <!-- Game Development News Section -->
                 <div id="dev-news-section" class="gaming-section form-section">
                     <fieldset>
-                        <legend>🎮 Game Development News</legend>
+                        <legend><i class="fa-solid fa-gamepad"></i> Game Development News</legend>
                         <div class="form-group">
                             <label for="dev-game">Game Title:</label>
                             <input type="text" id="dev-game" name="dev-game" required>
@@ -724,7 +550,7 @@
                 <!-- Game Reviews Section -->
                 <div id="reviews-section" class="gaming-section form-section">
                     <fieldset>
-                        <legend>🎮 Game Review</legend>
+                        <legend><i class="fa-solid fa-gamepad"></i> Game Review</legend>
                         <div class="form-group">
                             <label for="review-game">Game Title:</label>
                             <input type="text" id="review-game" name="review-game">
@@ -778,7 +604,7 @@
                 <!-- General Gaming Section -->
                 <div id="general-section" class="gaming-section form-section">
                     <fieldset>
-                        <legend>🎮 General Gaming</legend>
+                        <legend><i class="fa-solid fa-gamepad"></i> General Gaming</legend>
                         <div class="form-group">
                             <label for="general-topic">Topic:</label>
                             <input type="text" id="general-topic" name="general-topic" placeholder="e.g., Upcoming games, Gaming trends, Industry news">
@@ -804,7 +630,7 @@
                 <!-- Virtual Photography Section -->
                 <div id="virtual-photo-section" class="gaming-section form-section">
                     <fieldset>
-                        <legend>🎮 Virtual Photography</legend>
+                        <legend><i class="fa-solid fa-gamepad"></i> Virtual Photography</legend>
                         <div class="form-group">
                             <label for="photo-game">Game Title:</label>
                             <input type="text" id="photo-game" name="photo-game" required>
@@ -829,10 +655,10 @@
             </div>
 
             <!-- Common Sections -->
-            <div id="common-sections" class="form-section">
+            <div id="common-sections" class="form-section hidden">
                 <!-- Publishing & Promotion -->
-                <button type="button" class="collapsible" onclick="toggleSection(this)">📤 Publishing & Promotion</button>
-                <div class="collapsible-content">
+                <button type="button" class="secondary-button mb-2" onclick="toggleSection(this)"><i class="fa-solid fa-upload"></i> Publishing & Promotion</button>
+                <div class="form-section hidden">
                     <fieldset>
                         <div class="form-group">
                             <label for="platform">Publishing Platform:</label>
@@ -846,24 +672,24 @@
 
                         <div class="form-group">
                             <label>Social Media Sharing:</label>
-                            <div class="social-checkboxes">
-                                <label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label">
                                     <input type="checkbox" name="social-bluesky" value="bluesky">
                                     Bluesky
                                 </label>
-                                <label>
+                                <label class="checkbox-label">
                                     <input type="checkbox" name="social-tumblr" value="tumblr">
                                     Tumblr
                                 </label>
-                                <label>
+                                <label class="checkbox-label">
                                     <input type="checkbox" name="social-flickr" value="flickr">
                                     Flickr
                                 </label>
-                                <label>
+                                <label class="checkbox-label">
                                     <input type="checkbox" name="social-discord" value="discord">
                                     Discord
                                 </label>
-                                <label id="primfeed-label" class="sl-only hidden">
+                                <label id="primfeed-label" class="checkbox-label hidden">
                                     <input type="checkbox" name="social-primfeed" value="primfeed">
                                     Primfeed
                                 </label>
@@ -873,25 +699,27 @@
                 </div>
             </div>
 
-            <div class="form-actions">
-                <button type="button" onclick="showSaveModal()">Save Blog Plan</button>
-                <button type="button" onclick="resetForm()">New Blog Plan</button>
+            <div class="button-group">
+                <button type="button" onclick="showSaveModal()" class="secondary-button">Save Blog Plan</button>
+                <button type="button" onclick="resetForm()" class="secondary-button">New Blog Plan</button>
             </div>
         </form>
 
         <!-- Save Modal -->
-        <div id="save-modal">
-            <h3>Save Blog Plan</h3>
-            <div class="form-group">
-                <label for="plan-name">Plan Name:</label>
-                <input type="text" id="plan-name" required>
+        <div id="save-modal" class="modal">
+            <div class="modal-content">
+                <h3>Save Blog Plan</h3>
+                <div class="form-group">
+                    <label for="plan-name">Plan Name:</label>
+                    <input type="text" id="plan-name" required>
+                </div>
+                <div class="button-group">
+                    <button onclick="saveFormData()" class="secondary-button">Save</button>
+                    <button onclick="closeSaveModal()" class="secondary-button">Cancel</button>
+                </div>
             </div>
-            <div class="form-actions">
-                <button onclick="saveFormData()">Save</button>
-                <button onclick="closeSaveModal()">Cancel</button>
-            </div>
+            <div class="modal-overlay" onclick="closeSaveModal()"></div>
         </div>
-        <div class="modal-overlay" onclick="closeSaveModal()"></div>
     </main>
 
     <script>
@@ -980,17 +808,18 @@
             
             // Hide all sections first
             document.querySelectorAll('.form-section').forEach(section => {
+                section.classList.add('hidden');
                 section.classList.remove('visible');
             });
             
             // Show/hide Primfeed option based on category
             if (category === 'second-life') {
-                slForm.classList.add('visible');
-                commonSections.classList.add('visible');
+                slForm.classList.remove('hidden');
+                commonSections.classList.remove('hidden');
                 primfeedLabel.classList.remove('hidden');
             } else if (category === 'gaming') {
-                gamingForm.classList.add('visible');
-                commonSections.classList.add('visible');
+                gamingForm.classList.remove('hidden');
+                commonSections.classList.remove('hidden');
                 primfeedLabel.classList.add('hidden');
             }
         }
@@ -999,25 +828,25 @@
             const subcategory = document.getElementById('gaming-subcategory').value;
             const sections = document.querySelectorAll('.gaming-section');
             
-            // Hide all gaming sections first
             sections.forEach(section => {
+                section.classList.add('hidden');
                 section.classList.remove('visible');
             });
 
             if (subcategory) {
                 const activeSection = document.getElementById(`${subcategory}-section`);
                 if (activeSection) {
-                    activeSection.classList.add('visible');
+                    activeSection.classList.remove('hidden');
                 }
             }
         }
 
         function updateSponsorCredits() {
-            const sponsorSelect = document.getElementById('sponsor');
-            const manualCredits = document.getElementById('manual-credits');
-            const creatorName = document.getElementById('creator-name');
-            const landmark = document.getElementById('landmark');
-            const additionalCredits = document.getElementById('additional-credits');
+            const sponsorSelect = document.getElementById('fashion-sponsor');
+            const manualCredits = document.getElementById('fashion-manual-credits');
+            const creatorName = document.getElementById('fashion-creator-name');
+            const landmark = document.getElementById('fashion-landmark');
+            const additionalCredits = document.getElementById('fashion-additional-credits');
 
             if (sponsorSelect.value === 'none') {
                 manualCredits.classList.remove('hidden');
@@ -1041,19 +870,122 @@
             }
         }
 
+        function updateEventCredits() {
+            const sponsorSelect = document.getElementById('event-sponsor');
+            const manualCredits = document.getElementById('event-manual-credits');
+            const creatorName = document.getElementById('event-creator-name');
+            const landmark = document.getElementById('event-landmark');
+            const additionalCredits = document.getElementById('event-additional-credits');
+
+            if (sponsorSelect.value === 'none') {
+                manualCredits.classList.remove('hidden');
+                creatorName.required = true;
+                landmark.required = true;
+                additionalCredits.value = '';
+            } else if (sponsorSelect.value) {
+                manualCredits.classList.add('hidden');
+                creatorName.required = false;
+                landmark.required = false;
+                
+                const sponsor = sponsors[sponsorSelect.value];
+                if (sponsor) {
+                    additionalCredits.value = `Sponsored by ${sponsor.name}\nLocation: ${sponsor.landmark}`;
+                }
+            } else {
+                manualCredits.classList.add('hidden');
+                creatorName.required = false;
+                landmark.required = false;
+                additionalCredits.value = '';
+            }
+        }
+
+        function updateTutorialCredits() {
+            const sponsorSelect = document.getElementById('tutorial-sponsor');
+            const manualCredits = document.getElementById('tutorial-manual-credits');
+            const creatorName = document.getElementById('tutorial-creator-name');
+            const landmark = document.getElementById('tutorial-landmark');
+            const additionalCredits = document.getElementById('tutorial-additional-credits');
+
+            if (sponsorSelect.value === 'none') {
+                manualCredits.classList.remove('hidden');
+                creatorName.required = true;
+                landmark.required = true;
+                additionalCredits.value = '';
+            } else if (sponsorSelect.value) {
+                manualCredits.classList.add('hidden');
+                creatorName.required = false;
+                landmark.required = false;
+                
+                const sponsor = sponsors[sponsorSelect.value];
+                if (sponsor) {
+                    additionalCredits.value = `Sponsored by ${sponsor.name}\nLocation: ${sponsor.landmark}`;
+                }
+            } else {
+                manualCredits.classList.add('hidden');
+                creatorName.required = false;
+                landmark.required = false;
+                additionalCredits.value = '';
+            }
+        }
+
+        function toggleSection(button) {
+            button.classList.toggle('active');
+            const content = button.nextElementSibling;
+            content.classList.toggle('hidden');
+        }
+
+        function selectCategory(category) {
+            const buttons = document.querySelectorAll('.form-grid .secondary-button');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.category === category) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            document.getElementById('sl-topic').value = category;
+            toggleSLSections();
+        }
+
+        function selectMainCategory(category) {
+            const buttons = document.querySelectorAll('.form-grid .secondary-button');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.category === category) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            document.getElementById('blog-category').value = category;
+            toggleBlogSections();
+        }
+
+        function selectGamingCategory(category) {
+            const buttons = document.querySelectorAll('.form-grid .secondary-button');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.category === category) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            document.getElementById('gaming-subcategory').value = category;
+            toggleGamingSections();
+        }
+
         function toggleDevNewsSections() {
             const newsType = document.getElementById('dev-news-type').value;
             const sections = document.querySelectorAll('.dev-news-subsection');
             
-            // Hide all news type sections first
             sections.forEach(section => {
+                section.classList.add('hidden');
                 section.classList.remove('visible');
             });
 
             if (newsType) {
                 const activeSection = document.getElementById(`${newsType}-section`);
                 if (activeSection) {
-                    activeSection.classList.add('visible');
+                    activeSection.classList.remove('hidden');
                 }
             }
         }
@@ -1064,12 +996,11 @@
             const contentPlanning = document.querySelector('#second-life-form fieldset:nth-child(2)');
             const primfeedLabel = document.getElementById('primfeed-label');
             
-            // Hide all SL sections first
             sections.forEach(section => {
+                section.classList.add('hidden');
                 section.classList.remove('visible');
             });
 
-            // Show/hide content planning based on category
             if (contentPlanning) {
                 if (category === 'sponsor') {
                     contentPlanning.style.display = 'none';
@@ -1078,7 +1009,6 @@
                 }
             }
 
-            // Show/hide Primfeed option based on category
             if (category === 'second-life') {
                 primfeedLabel.classList.remove('hidden');
             } else {
@@ -1088,7 +1018,7 @@
             if (category) {
                 const activeSection = document.getElementById(`${category}-section`);
                 if (activeSection) {
-                    activeSection.classList.add('visible');
+                    activeSection.classList.remove('hidden');
                 }
             }
         }
@@ -1184,20 +1114,20 @@
             const savedPlans = JSON.parse(localStorage.getItem('savedBlogPlans') || '[]');
             const plansList = document.getElementById('saved-plans-list');
             
-            plansList.innerHTML = savedPlans.length ? '' : '<p>No saved plans yet</p>';
+            plansList.innerHTML = savedPlans.length ? '' : '<p class="empty-state">No saved plans yet</p>';
             
             savedPlans.forEach((plan, index) => {
                 const date = new Date(plan.date).toLocaleDateString();
                 const planItem = document.createElement('div');
-                planItem.className = 'plan-item';
+                planItem.className = 'journal-entry';
                 planItem.innerHTML = `
-                    <div class="plan-info">
-                        <div class="plan-title">${plan.name}</div>
-                        <div class="plan-date">Created: ${date}</div>
+                    <div class="entry-header">
+                        <h3>${plan.name}</h3>
+                        <span class="entry-date">Created: ${date}</span>
                     </div>
-                    <div class="plan-actions">
-                        <button onclick="loadPlan(${index})">Load</button>
-                        <button onclick="deletePlan(${index})">Delete</button>
+                    <div class="entry-actions">
+                        <button onclick="loadPlan(${index})" class="secondary-button">Load</button>
+                        <button onclick="deletePlan(${index})" class="secondary-button">Delete</button>
                     </div>
                 `;
                 plansList.appendChild(planItem);
@@ -1258,150 +1188,20 @@
             
             // Reset all sections and categories
             document.querySelectorAll('.form-section').forEach(section => {
+                section.classList.add('hidden');
                 section.classList.remove('visible');
             });
             
-            document.querySelectorAll('.category-btn').forEach(btn => {
+            document.querySelectorAll('.secondary-button').forEach(btn => {
                 btn.classList.remove('active');
             });
-        }
-
-        function updateFashionCredits() {
-            const sponsorSelect = document.getElementById('fashion-sponsor');
-            const manualCredits = document.getElementById('fashion-manual-credits');
-            const creatorName = document.getElementById('fashion-creator-name');
-            const landmark = document.getElementById('fashion-landmark');
-            const additionalCredits = document.getElementById('fashion-additional-credits');
-
-            if (sponsorSelect.value === 'none') {
-                manualCredits.classList.remove('hidden');
-                creatorName.required = true;
-                landmark.required = true;
-                additionalCredits.value = '';
-            } else if (sponsorSelect.value) {
-                manualCredits.classList.add('hidden');
-                creatorName.required = false;
-                landmark.required = false;
-                
-                const sponsor = sponsors[sponsorSelect.value];
-                if (sponsor) {
-                    additionalCredits.value = `Sponsored by ${sponsor.name}\nLocation: ${sponsor.landmark}`;
-                }
-            } else {
-                manualCredits.classList.add('hidden');
-                creatorName.required = false;
-                landmark.required = false;
-                additionalCredits.value = '';
-            }
-        }
-
-        function updateEventCredits() {
-            const sponsorSelect = document.getElementById('event-sponsor');
-            const manualCredits = document.getElementById('event-manual-credits');
-            const creatorName = document.getElementById('event-creator-name');
-            const landmark = document.getElementById('event-landmark');
-            const additionalCredits = document.getElementById('event-additional-credits');
-
-            if (sponsorSelect.value === 'none') {
-                manualCredits.classList.remove('hidden');
-                creatorName.required = true;
-                landmark.required = true;
-                additionalCredits.value = '';
-            } else if (sponsorSelect.value) {
-                manualCredits.classList.add('hidden');
-                creatorName.required = false;
-                landmark.required = false;
-                
-                const sponsor = sponsors[sponsorSelect.value];
-                if (sponsor) {
-                    additionalCredits.value = `Sponsored by ${sponsor.name}\nLocation: ${sponsor.landmark}`;
-                }
-            } else {
-                manualCredits.classList.add('hidden');
-                creatorName.required = false;
-                landmark.required = false;
-                additionalCredits.value = '';
-            }
-        }
-
-        function updateTutorialCredits() {
-            const sponsorSelect = document.getElementById('tutorial-sponsor');
-            const manualCredits = document.getElementById('tutorial-manual-credits');
-            const creatorName = document.getElementById('tutorial-creator-name');
-            const landmark = document.getElementById('tutorial-landmark');
-            const additionalCredits = document.getElementById('tutorial-additional-credits');
-
-            if (sponsorSelect.value === 'none') {
-                manualCredits.classList.remove('hidden');
-                creatorName.required = true;
-                landmark.required = true;
-                additionalCredits.value = '';
-            } else if (sponsorSelect.value) {
-                manualCredits.classList.add('hidden');
-                creatorName.required = false;
-                landmark.required = false;
-                
-                const sponsor = sponsors[sponsorSelect.value];
-                if (sponsor) {
-                    additionalCredits.value = `Sponsored by ${sponsor.name}\nLocation: ${sponsor.landmark}`;
-                }
-            } else {
-                manualCredits.classList.add('hidden');
-                creatorName.required = false;
-                landmark.required = false;
-                additionalCredits.value = '';
-            }
-        }
-
-        function toggleSection(button) {
-            button.classList.toggle('active');
-            const content = button.nextElementSibling;
-            content.classList.toggle('visible');
-        }
-
-        function selectCategory(category) {
-            const buttons = document.querySelectorAll('.category-btn');
-            buttons.forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.category === category) {
-                    btn.classList.add('active');
-                }
-            });
-            
-            document.getElementById('sl-topic').value = category;
-            toggleSLSections();
-        }
-
-        function selectMainCategory(category) {
-            const buttons = document.querySelectorAll('.category-btn[data-category]');
-            buttons.forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.category === category) {
-                    btn.classList.add('active');
-                }
-            });
-            
-            document.getElementById('blog-category').value = category;
-            toggleBlogSections();
-        }
-
-        function selectGamingCategory(category) {
-            const buttons = document.querySelectorAll('.category-buttons .category-btn');
-            buttons.forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.category === category) {
-                    btn.classList.add('active');
-                }
-            });
-            
-            document.getElementById('gaming-subcategory').value = category;
-            toggleGamingSections();
         }
 
         // Initialize the form
         document.addEventListener("DOMContentLoaded", function() {
             // Hide all sections initially
             document.querySelectorAll('.form-section').forEach(section => {
+                section.classList.add('hidden');
                 section.classList.remove('visible');
             });
             

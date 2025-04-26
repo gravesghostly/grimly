@@ -4,72 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asset Design - Grimly's Workflow Hub</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="blog-planner.html">Blog Planner</a></li>
-                <li><a href="project-workflow.html">Project Workflow</a></li>
-            </ul>
-        </nav>
-        <h1>Asset Design Project</h1>
+        <a href="index.html"><img src="grimlylogo_v1_transparent.png" alt="Grimly Design Studio Logo" class="site-logo"></a>
     </header>
-
     <main>
-        <form id="assetDesignForm">
-            <fieldset>
-                <legend>🖼 Asset Design Details</legend>
-                <div class="form-group">
-                    <label for="asset-type">Asset Type:</label>
-                    <input type="text" id="asset-type" name="asset-type" required>
-                </div>
-                <div class="form-group">
-                    <label for="asset-style">Style:</label>
-                    <input type="text" id="asset-style" name="asset-style" required>
-                </div>
-                <div class="form-group">
-                    <label for="asset-count">Number of Assets:</label>
-                    <input type="number" id="asset-count" name="asset-count" required>
-                </div>
-                <div class="form-group">
-                    <label for="asset-format">File Format:</label>
-                    <input type="text" id="asset-format" name="asset-format" placeholder="e.g., PNG, JPG, PSD" required>
-                </div>
-                <div class="form-group">
-                    <label for="asset-resolution">Resolution:</label>
-                    <input type="text" id="asset-resolution" name="asset-resolution" placeholder="e.g., 1024x1024" required>
-                </div>
-                <div class="form-group">
-                    <label for="asset-reference">Reference Images:</label>
-                    <input type="file" id="asset-reference" name="asset-reference" accept="image/*" multiple>
-                </div>
-                <div class="form-group">
-                    <label for="asset-deadline">Deadline:</label>
-                    <input type="date" id="asset-deadline" name="asset-deadline" required>
-                </div>
-                <div class="form-group">
-                    <label for="asset-notes">Additional Notes:</label>
-                    <textarea id="asset-notes" name="asset-notes" placeholder="Any additional requirements or preferences..."></textarea>
-                </div>
-            </fieldset>
-
-            <button type="button" onclick="saveFormData()">Save Project</button>
-        </form>
+        <section class="form-section">
+            <form id="assetDesignForm">
+                <fieldset>
+                    <legend>🖼 Asset Design Details</legend>
+                    <div class="form-group">
+                        <label for="asset-type">Asset Type:</label>
+                        <input type="text" id="asset-type" name="asset-type" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="asset-style">Style:</label>
+                        <input type="text" id="asset-style" name="asset-style" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="asset-count">Number of Assets:</label>
+                        <input type="number" id="asset-count" name="asset-count" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="asset-format">File Format:</label>
+                        <input type="text" id="asset-format" name="asset-format" placeholder="e.g., PNG, JPG, PSD" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="asset-resolution">Resolution:</label>
+                        <input type="text" id="asset-resolution" name="asset-resolution" placeholder="e.g., 1024x1024" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="asset-reference">Reference Images:</label>
+                        <input type="file" id="asset-reference" name="asset-reference" accept="image/*" multiple>
+                    </div>
+                    <div class="form-group">
+                        <label for="asset-deadline">Deadline:</label>
+                        <input type="date" id="asset-deadline" name="asset-deadline" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="asset-notes">Additional Notes:</label>
+                        <textarea id="asset-notes" name="asset-notes" placeholder="Any additional requirements or preferences..."></textarea>
+                    </div>
+                </fieldset>
+                <button type="button" onclick="saveFormData()">Save Project</button>
+            </form>
+        </section>
     </main>
-
+    <footer>
+        <p>&copy; 2024 Grimly's Workflow Hub. All rights reserved.</p>
+    </footer>
     <script>
         function saveFormData() {
             const form = document.getElementById('assetDesignForm');
             const formData = {};
-
-            // Handle text, number, date inputs, textareas, and file inputs
             const inputs = form.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], textarea, input[type="file"]');
             inputs.forEach(input => {
                 if (input.type === 'file') {
-                    // For file inputs, store the file names
                     const files = input.files;
                     if (files.length > 0) {
                         formData[input.name] = Array.from(files).map(file => file.name);
@@ -78,18 +71,14 @@
                     formData[input.name] = input.value;
                 }
             });
-
             localStorage.setItem('assetDesignForm', JSON.stringify(formData));
             alert("Asset design project saved successfully!");
         }
-
         function loadFormData() {
             const savedData = localStorage.getItem('assetDesignForm');
             if (savedData) {
                 const formData = JSON.parse(savedData);
                 const form = document.getElementById('assetDesignForm');
-
-                // Restore inputs
                 const inputs = form.querySelectorAll('input[type="text"], input[type="number"], input[type="date"], textarea');
                 inputs.forEach(input => {
                     if (formData[input.name]) {
