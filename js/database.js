@@ -39,10 +39,61 @@ class ProjectDatabase {
                 if (!db.objectStoreNames.contains('logoDesignProjects')) {
                     db.createObjectStore('logoDesignProjects', { keyPath: 'id', autoIncrement: true });
                 }
+                // Add profile store
+                if (!db.objectStoreNames.contains('profiles')) {
+                    db.createObjectStore('profiles', { keyPath: 'id' });
+                }
             };
         });
     }
 
+    // Profile methods
+    async getProfile() {
+        return new Promise((resolve, reject) => {
+            if (!this.db) {
+                reject(new Error('Database not initialized'));
+                return;
+            }
+
+            const transaction = this.db.transaction(['profiles'], 'readonly');
+            const store = transaction.objectStore('profiles');
+            const request = store.get('current');
+
+            request.onsuccess = () => {
+                resolve(request.result || null);
+            };
+
+            request.onerror = (event) => {
+                console.error('Error getting profile:', event.target.error);
+                reject(event.target.error);
+            };
+        });
+    }
+
+    async saveProfile(profileData) {
+        return new Promise((resolve, reject) => {
+            if (!this.db) {
+                reject(new Error('Database not initialized'));
+                return;
+            }
+
+            const transaction = this.db.transaction(['profiles'], 'readwrite');
+            const store = transaction.objectStore('profiles');
+            const request = store.put({ ...profileData, id: 'current' });
+
+            request.onsuccess = () => {
+                console.log('Profile saved successfully');
+                resolve();
+            };
+
+            request.onerror = (event) => {
+                console.error('Error saving profile:', event.target.error);
+                reject(event.target.error);
+            };
+        });
+    }
+
+    // Project methods
     async saveProject(storeName, projectData) {
         return new Promise((resolve, reject) => {
             const transaction = this.db.transaction([storeName], 'readwrite');

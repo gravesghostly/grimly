@@ -3,30 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Planner - Grimly's Workflow Hub</title>
+    <title>Post Planner - Grimly's Workflow Hub</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Add your styles here */
+        .collapsible-heading {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--background-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .collapsible-heading:hover {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .collapsible-heading i {
+            margin-right: 0.5rem;
+        }
+
+        .collapsible-heading .arrow {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .collapsible-heading.active .arrow {
+            transform: rotate(180deg);
+        }
+
+        .collapsible-content {
+            display: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .collapsible-content.visible {
+            display: block;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <a href="index.html"><img src="grimlylogo_v1_transparent.png" alt="Grimly Design Studio Logo" class="site-logo"></a>
+        <div class="header-content">
+            <a href="index.html"><img src="grimlylogo_v1_transparent.png" alt="Grimly Design Studio Logo" class="site-logo"></a>
+        </div>
     </header>
+
+    <div class="greeting-section">
+        <div class="greeting-content">
+            <h1>Post Planner <span class="wave">✍️</span></h1>
+            <div class="quick-actions">
+                <span>Quick Actions:</span>
+                <a href="blog-planner.html" class="quick-action-item">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                    <span>Blog</span>
+                </a>
+                <a href="logo-design.html" class="quick-action-item">
+                    <i class="fa-solid fa-palette"></i>
+                    <span>Logo</span>
+                </a>
+                <a href="journal.html" class="quick-action-item">
+                    <i class="fa-solid fa-note-sticky"></i>
+                    <span>Journal</span>
+                </a>
+                <a href="shopping-list.html" class="quick-action-item">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Shopping</span>
+                </a>
+            </div>
+        </div>
+    </div>
 
     <main>
         <div class="form-container">
-            <h2><i class="fa-solid fa-pen-to-square"></i> Saved Blog Plans</h2>
+            <h2><i class="fa-solid fa-pen-to-square"></i> Saved Posts</h2>
             <div id="saved-plans-list" class="journal-entries">
                 <!-- Saved plans will be listed here -->
             </div>
         </div>
 
         <form id="blogForm" class="form-container">
-            <!-- Blog Category Selection -->
+            <!-- Create Post Selection -->
             <fieldset>
-                <legend><i class="fa-solid fa-list"></i> Blog Category</legend>
+                <legend><i class="fa-solid fa-list"></i> Create Post</legend>
                 <div class="form-group">
-                    <label>Select Blog Category:</label>
+                    <label>Select Post Type:</label>
                     <div class="form-grid">
                         <button type="button" class="secondary-button" onclick="selectMainCategory('second-life')" data-category="second-life"><i class="fa-solid fa-globe"></i> Second Life</button>
                         <button type="button" class="secondary-button" onclick="selectMainCategory('gaming')" data-category="gaming"><i class="fa-solid fa-gamepad"></i> Gaming</button>
@@ -37,300 +108,65 @@
 
             <!-- Second Life Form -->
             <div id="second-life-form" class="form-section hidden">
-                <!-- Blog Setup -->
-                <button type="button" class="secondary-button mb-2" onclick="toggleSection(this)"><i class="fa-solid fa-wrench"></i> Blog Setup</button>
-                <div class="form-section hidden">
-                    <fieldset>
-                        <div class="form-group">
-                            <label for="sl-title">Blog Post Title:</label>
-                            <input type="text" id="sl-title" name="sl-title" required>
-                        </div>
+                <fieldset>
+                    <div class="form-group">
+                        <label for="sl-title">Post Title:</label>
+                        <input type="text" id="sl-title" name="sl-title" required>
+                    </div>
 
-                        <div class="form-group">
-                            <label>Blog Category:</label>
-                            <div class="form-grid">
-                                <button type="button" class="secondary-button" onclick="selectCategory('fashion')" data-category="fashion"><i class="fa-solid fa-shirt"></i> Fashion</button>
-                                <button type="button" class="secondary-button" onclick="selectCategory('event')" data-category="event"><i class="fa-solid fa-calendar-days"></i> Event</button>
-                                <button type="button" class="secondary-button" onclick="selectCategory('tutorial')" data-category="tutorial"><i class="fa-solid fa-book"></i> Tutorial</button>
-                                <button type="button" class="secondary-button" onclick="selectCategory('sponsor')" data-category="sponsor"><i class="fa-solid fa-star"></i> Sponsor Spotlight</button>
-                            </div>
-                            <input type="hidden" id="sl-topic" name="sl-topic" required>
+                    <div class="form-group">
+                        <label>Post Category:</label>
+                        <div class="form-grid">
+                            <button type="button" class="secondary-button" onclick="selectCategory('fashion')" data-category="fashion"><i class="fa-solid fa-shirt"></i> Fashion</button>
+                            <button type="button" class="secondary-button" onclick="selectCategory('event')" data-category="event"><i class="fa-solid fa-calendar-days"></i> Event</button>
+                            <button type="button" class="secondary-button" onclick="selectCategory('tutorial')" data-category="tutorial"><i class="fa-solid fa-book"></i> Tutorial</button>
+                            <button type="button" class="secondary-button" onclick="selectCategory('sponsor')" data-category="sponsor"><i class="fa-solid fa-star"></i> Sponsor Spotlight</button>
                         </div>
+                        <input type="hidden" id="sl-topic" name="sl-topic" required>
+                    </div>
 
-                        <div class="form-group">
-                            <label for="sl-deadline">Publishing Deadline:</label>
-                            <input type="date" id="sl-deadline" name="sl-deadline" required>
+                    <div class="form-group">
+                        <label for="sl-deadline">Publishing Deadline:</label>
+                        <input type="date" id="sl-deadline" name="sl-deadline" required>
+                    </div>
+                </fieldset>
+            </div>
+
+            <!-- Gaming Form -->
+            <div id="gaming-form" class="form-section hidden">
+                <fieldset>
+                    <div class="form-group">
+                        <label for="gaming-title">Post Title:</label>
+                        <input type="text" id="gaming-title" name="gaming-title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Gaming Subcategory:</label>
+                        <div class="form-grid">
+                            <button type="button" class="secondary-button" onclick="selectGamingCategory('dev-news')" data-category="dev-news"><i class="fa-solid fa-newspaper"></i> Game Development News</button>
+                            <button type="button" class="secondary-button" onclick="selectGamingCategory('reviews')" data-category="reviews"><i class="fa-solid fa-star"></i> Game Reviews</button>
+                            <button type="button" class="secondary-button" onclick="selectGamingCategory('general')" data-category="general"><i class="fa-solid fa-gamepad"></i> General Gaming</button>
+                            <button type="button" class="secondary-button" onclick="selectGamingCategory('virtual-photo')" data-category="virtual-photo"><i class="fa-solid fa-camera"></i> Virtual Photography</button>
                         </div>
-                    </fieldset>
-                </div>
+                        <input type="hidden" id="gaming-subcategory" name="gaming-subcategory" required>
+                    </div>
 
-                <!-- Fashion Section -->
-                <div id="fashion-section" class="sl-subsection form-section">
-                    <fieldset>
-                        <legend><i class="fa-solid fa-shirt"></i> Fashion Details</legend>
-                        <div class="form-group">
-                            <label for="outfit-name">Outfit Name:</label>
-                            <input type="text" id="outfit-name" name="outfit-name" required>
-                        </div>
+                    <div class="form-group">
+                        <label for="gaming-deadline">Publishing Deadline:</label>
+                        <input type="date" id="gaming-deadline" name="gaming-deadline" required>
+                    </div>
+                </fieldset>
+            </div>
 
-                        <div class="form-group">
-                            <label for="outfit-style">Style:</label>
-                            <input type="text" id="outfit-style" name="outfit-style" placeholder="e.g., Casual, Formal, Fantasy">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="outfit-credits">Outfit Credits:</label>
-                            <textarea id="outfit-credits" name="outfit-credits" placeholder="List all outfit pieces and their creators..." required></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="fashion-sponsor">Sponsor:</label>
-                            <select id="fashion-sponsor" name="fashion-sponsor" onchange="updateFashionCredits()">
-                                <option value="">Select a sponsor...</option>
-                                <option value="abnormality">Abnormality</option>
-                                <option value="birchteeth">Birchteeth</option>
-                                <option value="bunk">Bunk.</option>
-                                <option value="cubic-cherry">Cubic Cherry</option>
-                                <option value="eden-by-eve">Eden by Eve</option>
-                                <option value="fortunata">Fortunata</option>
-                                <option value="kottr">Kottr</option>
-                                <option value="mainframe">Mainframe</option>
-                                <option value="mamere">Mamere</option>
-                                <option value="neza">Neza</option>
-                                <option value="normandy">Normandy</option>
-                                <option value="oakheart">Oakheart</option>
-                                <option value="paniq">PANIQ</option>
-                                <option value="perennial-magik">Perennial Magik</option>
-                                <option value="synnergy-tavis">Synnergy.Tavis</option>
-                                <option value="tardfish">Tardfish</option>
-                                <option value="teeth">TEETH</option>
-                                <option value="whisk">Whisk</option>
-                                <option value="none">No Sponsor</option>
-                            </select>
-                        </div>
-
-                        <div id="fashion-manual-credits" class="form-group hidden">
-                            <label for="fashion-creator-name">Creator Name:</label>
-                            <input type="text" id="fashion-creator-name" name="fashion-creator-name">
-                            
-                            <label for="fashion-landmark">Landmark:</label>
-                            <input type="text" id="fashion-landmark" name="fashion-landmark">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="fashion-additional-credits">Additional Credits:</label>
-                            <textarea id="fashion-additional-credits" name="fashion-additional-credits" placeholder="List any additional credits or attributions..."></textarea>
-                        </div>
-                    </fieldset>
-                </div>
-
-                <!-- Event Section -->
-                <div id="event-section" class="sl-subsection form-section">
-                    <fieldset>
-                        <legend><i class="fa-solid fa-calendar-days"></i> Event Details</legend>
-                        <div class="form-group">
-                            <label for="event-name">Event Name:</label>
-                            <input type="text" id="event-name" name="event-name" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="event-theme">Event Theme:</label>
-                            <input type="text" id="event-theme" name="event-theme" placeholder="If the event has a specific theme...">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="event-landmark">Event Landmark:</label>
-                            <input type="text" id="event-landmark" name="event-landmark" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="event-duration">Event Duration:</label>
-                            <input type="text" id="event-duration" name="event-duration" placeholder="e.g., Until March 31st, All month" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="event-caption">Event Caption:</label>
-                            <textarea id="event-caption" name="event-caption" placeholder="Write a captivating description of the event, highlighting its unique features and what visitors can expect..." rows="4"></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="event-sponsor">Sponsor:</label>
-                            <select id="event-sponsor" name="event-sponsor" onchange="updateEventCredits()">
-                                <option value="">Select a sponsor...</option>
-                                <option value="abnormality">Abnormality</option>
-                                <option value="birchteeth">Birchteeth</option>
-                                <option value="bunk">Bunk.</option>
-                                <option value="cubic-cherry">Cubic Cherry</option>
-                                <option value="eden-by-eve">Eden by Eve</option>
-                                <option value="fortunata">Fortunata</option>
-                                <option value="kottr">Kottr</option>
-                                <option value="mainframe">Mainframe</option>
-                                <option value="mamere">Mamere</option>
-                                <option value="neza">Neza</option>
-                                <option value="normandy">Normandy</option>
-                                <option value="oakheart">Oakheart</option>
-                                <option value="paniq">PANIQ</option>
-                                <option value="perennial-magik">Perennial Magik</option>
-                                <option value="synnergy-tavis">Synnergy.Tavis</option>
-                                <option value="tardfish">Tardfish</option>
-                                <option value="teeth">TEETH</option>
-                                <option value="whisk">Whisk</option>
-                                <option value="none">No Sponsor</option>
-                            </select>
-                        </div>
-
-                        <div id="event-manual-credits" class="form-group hidden">
-                            <label for="event-creator-name">Creator Name:</label>
-                            <input type="text" id="event-creator-name" name="event-creator-name">
-                            
-                            <label for="event-landmark">Landmark:</label>
-                            <input type="text" id="event-landmark" name="event-landmark">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="event-additional-credits">Additional Credits:</label>
-                            <textarea id="event-additional-credits" name="event-additional-credits" placeholder="List any additional credits or attributions..."></textarea>
-                        </div>
-                    </fieldset>
-                </div>
-
-                <!-- Tutorial Section -->
-                <div id="tutorial-section" class="sl-subsection form-section">
-                    <fieldset>
-                        <legend><i class="fa-solid fa-book"></i> Tutorial Details</legend>
-                        <div class="form-group">
-                            <label for="tutorial-topic">Tutorial Topic:</label>
-                            <input type="text" id="tutorial-topic" name="tutorial-topic" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="sl-outline">Outline / Key Points:</label>
-                            <textarea id="sl-outline" name="sl-outline" placeholder="List your main points and ideas here..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="tutorial-steps">Tutorial Steps:</label>
-                            <div id="tutorial-steps-container">
-                                <div class="tutorial-step">
-                                    <input type="text" name="tutorial-step[]" placeholder="Step 1" required>
-                                    <textarea name="tutorial-step-details[]" placeholder="Detailed instructions for this step..." required></textarea>
-                                </div>
-                            </div>
-                            <button type="button" onclick="addTutorialStep()">Add Another Step</button>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="tutorial-tips">Additional Tips:</label>
-                            <textarea id="tutorial-tips" name="tutorial-tips" placeholder="Any extra tips or warnings for readers..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="tutorial-sponsor">Sponsor:</label>
-                            <select id="tutorial-sponsor" name="tutorial-sponsor" onchange="updateTutorialCredits()">
-                                <option value="">Select a sponsor...</option>
-                                <option value="abnormality">Abnormality</option>
-                                <option value="birchteeth">Birchteeth</option>
-                                <option value="bunk">Bunk.</option>
-                                <option value="cubic-cherry">Cubic Cherry</option>
-                                <option value="eden-by-eve">Eden by Eve</option>
-                                <option value="fortunata">Fortunata</option>
-                                <option value="kottr">Kottr</option>
-                                <option value="mainframe">Mainframe</option>
-                                <option value="mamere">Mamere</option>
-                                <option value="neza">Neza</option>
-                                <option value="normandy">Normandy</option>
-                                <option value="oakheart">Oakheart</option>
-                                <option value="paniq">PANIQ</option>
-                                <option value="perennial-magik">Perennial Magik</option>
-                                <option value="synnergy-tavis">Synnergy.Tavis</option>
-                                <option value="tardfish">Tardfish</option>
-                                <option value="teeth">TEETH</option>
-                                <option value="whisk">Whisk</option>
-                                <option value="none">No Sponsor</option>
-                            </select>
-                        </div>
-
-                        <div id="tutorial-manual-credits" class="form-group hidden">
-                            <label for="tutorial-creator-name">Creator Name:</label>
-                            <input type="text" id="tutorial-creator-name" name="tutorial-creator-name">
-                            
-                            <label for="tutorial-landmark">Landmark:</label>
-                            <input type="text" id="tutorial-landmark" name="tutorial-landmark">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="tutorial-additional-credits">Additional Credits:</label>
-                            <textarea id="tutorial-additional-credits" name="tutorial-additional-credits" placeholder="List any additional credits or attributions..."></textarea>
-                        </div>
-                    </fieldset>
-                </div>
-
-                <!-- Sponsor Spotlight Section -->
-                <div id="sponsor-section" class="sl-subsection form-section">
-                    <fieldset>
-                        <legend><i class="fa-solid fa-star"></i> Sponsor Spotlight</legend>
-                        <div class="form-group">
-                            <label for="sponsor-intro">Opening Paragraph:</label>
-                            <textarea id="sponsor-intro" name="sponsor-intro" placeholder="Share your connection to the brand, how you discovered them, and why they stand out..." required></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="brand-name">Brand Name:</label>
-                            <input type="text" id="brand-name" name="brand-name" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="brand-about">About the Brand:</label>
-                            <textarea id="brand-about" name="brand-about" placeholder="Brand's history, specialties, and unique selling points..." required></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Favorite Creations:</label>
-                            <div id="favorite-creations-container">
-                                <div class="favorite-creation">
-                                    <input type="text" name="product-name[]" placeholder="Product Name" required>
-                                    <textarea name="product-description[]" placeholder="Your description of the product and why you love it..." required></textarea>
-                                    <input type="url" name="product-post-url[]" placeholder="Original blog post URL" required>
-                                </div>
-                            </div>
-                            <button type="button" onclick="addFavoriteCreation()">Add Another Creation</button>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="mainstore-link">Mainstore SLURL:</label>
-                            <input type="url" id="mainstore-link" name="mainstore-link" placeholder="Mainstore landmark" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="marketplace-link">Marketplace Link:</label>
-                            <input type="url" id="marketplace-link" name="marketplace-link" placeholder="Marketplace URL" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="event-name">Current Event Name:</label>
-                            <input type="text" id="event-name" name="event-name" placeholder="Name of event where they're featured">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="event-slurl">Event SLURL:</label>
-                            <input type="url" id="event-slurl" name="event-slurl" placeholder="Event landmark">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="event-end-date">Event End Date:</label>
-                            <input type="text" id="event-end-date" name="event-end-date" placeholder="e.g., March 31st">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="sponsor-screenshots">Upload Screenshots:</label>
-                            <input type="file" id="sponsor-screenshots" name="sponsor-screenshots" accept="image/*" multiple required>
-                        </div>
-                    </fieldset>
-                </div>
-
+            <!-- Common Sections -->
+            <div id="common-sections" class="form-section hidden">
                 <!-- Writing & Editing -->
-                <button type="button" class="secondary-button mb-2" onclick="toggleSection(this)"><i class="fa-solid fa-pen"></i> Writing & Editing</button>
-                <div class="form-section hidden">
+                <h3 class="collapsible-heading" onclick="toggleSection(this)">
+                    <i class="fa-solid fa-pen"></i>
+                    Writing & Editing
+                    <i class="fa-solid fa-chevron-down arrow"></i>
+                </h3>
+                <div class="collapsible-content">
                     <fieldset>
                         <div class="form-group">
                             <label>
@@ -359,306 +195,14 @@
                         </div>
                     </fieldset>
                 </div>
-            </div>
 
-            <!-- Gaming Form -->
-            <div id="gaming-form" class="form-section hidden">
-                <!-- Blog Setup -->
-                <fieldset>
-                    <div class="form-group">
-                        <label for="gaming-title">Blog Post Title:</label>
-                        <input type="text" id="gaming-title" name="gaming-title" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Gaming Subcategory:</label>
-                        <div class="form-grid">
-                            <button type="button" class="secondary-button" onclick="selectGamingCategory('dev-news')" data-category="dev-news"><i class="fa-solid fa-newspaper"></i> Game Development News</button>
-                            <button type="button" class="secondary-button" onclick="selectGamingCategory('reviews')" data-category="reviews"><i class="fa-solid fa-star"></i> Game Reviews</button>
-                            <button type="button" class="secondary-button" onclick="selectGamingCategory('general')" data-category="general"><i class="fa-solid fa-gamepad"></i> General Gaming</button>
-                            <button type="button" class="secondary-button" onclick="selectGamingCategory('virtual-photo')" data-category="virtual-photo"><i class="fa-solid fa-camera"></i> Virtual Photography</button>
-                        </div>
-                        <input type="hidden" id="gaming-subcategory" name="gaming-subcategory" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="gaming-deadline">Publishing Deadline:</label>
-                        <input type="date" id="gaming-deadline" name="gaming-deadline" required>
-                    </div>
-                </fieldset>
-
-                <!-- Game Development News Section -->
-                <div id="dev-news-section" class="gaming-section form-section">
-                    <fieldset>
-                        <legend><i class="fa-solid fa-gamepad"></i> Game Development News</legend>
-                        <div class="form-group">
-                            <label for="dev-game">Game Title:</label>
-                            <input type="text" id="dev-game" name="dev-game" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="dev-platform">Platform:</label>
-                            <select id="dev-platform" name="dev-platform" required>
-                                <option value="">Select platform...</option>
-                                <option value="pc">PC</option>
-                                <option value="console">Console</option>
-                                <option value="mobile">Mobile</option>
-                                <option value="multi">Multi-platform</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="dev-news-type">News Type:</label>
-                            <select id="dev-news-type" name="dev-news-type" required onchange="toggleDevNewsSections()">
-                                <option value="">Select type...</option>
-                                <option value="announcement">Announcement</option>
-                                <option value="update">Update/Patch</option>
-                                <option value="preview">Preview</option>
-                                <option value="release">Release</option>
-                            </select>
-                        </div>
-
-                        <!-- Announcement Section -->
-                        <div id="announcement-section" class="dev-news-subsection form-section">
-                            <div class="form-group">
-                                <label for="announcement-date">Announcement Date:</label>
-                                <input type="date" id="announcement-date" name="announcement-date">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="announcement-type">Announcement Type:</label>
-                                <select id="announcement-type" name="announcement-type">
-                                    <option value="">Select type...</option>
-                                    <option value="new-game">New Game</option>
-                                    <option value="expansion">Expansion/DLC</option>
-                                    <option value="feature">New Feature</option>
-                                    <option value="partnership">Partnership</option>
-                                    <option value="event">Special Event</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="announcement-details">Announcement Details:</label>
-                                <textarea id="announcement-details" name="announcement-details" placeholder="Key points from the announcement..."></textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="announcement-links">Related Links:</label>
-                                <textarea id="announcement-links" name="announcement-links" placeholder="Official announcement, trailer, social media links..."></textarea>
-                            </div>
-                        </div>
-
-                        <!-- Update/Patch Section -->
-                        <div id="update-section" class="dev-news-subsection form-section">
-                            <div class="form-group">
-                                <label for="update-version">Version Number:</label>
-                                <input type="text" id="update-version" name="update-version" placeholder="e.g., 1.2.3">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="update-type">Update Type:</label>
-                                <select id="update-type" name="update-type">
-                                    <option value="">Select type...</option>
-                                    <option value="bug-fix">Bug Fixes</option>
-                                    <option value="balance">Balance Changes</option>
-                                    <option value="content">New Content</option>
-                                    <option value="performance">Performance</option>
-                                    <option value="security">Security</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="update-changes">Key Changes:</label>
-                                <textarea id="update-changes" name="update-changes" placeholder="List the main changes in this update..."></textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="update-size">Download Size:</label>
-                                <input type="text" id="update-size" name="update-size" placeholder="e.g., 2.5 GB">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="update-notes">Patch Notes Link:</label>
-                                <input type="url" id="update-notes" name="update-notes" placeholder="Link to full patch notes">
-                            </div>
-                        </div>
-
-                        <!-- Preview Section -->
-                        <div id="preview-section" class="dev-news-subsection form-section">
-                            <div class="form-group">
-                                <label for="preview-type">Preview Type:</label>
-                                <select id="preview-type" name="preview-type">
-                                    <option value="">Select type...</option>
-                                    <option value="gameplay">Gameplay</option>
-                                    <option value="trailer">Trailer</option>
-                                    <option value="interview">Developer Interview</option>
-                                    <option value="behind-scenes">Behind the Scenes</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="preview-date">Preview Date:</label>
-                                <input type="date" id="preview-date" name="preview-date">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="preview-highlights">Key Highlights:</label>
-                                <textarea id="preview-highlights" name="preview-highlights" placeholder="Main features or content shown in the preview..."></textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="preview-media">Media Links:</label>
-                                <textarea id="preview-media" name="preview-media" placeholder="Links to preview videos, screenshots, or articles..."></textarea>
-                            </div>
-                        </div>
-
-                        <!-- Release Section -->
-                        <div id="release-section" class="dev-news-subsection form-section">
-                            <div class="form-group">
-                                <label for="release-date">Release Date:</label>
-                                <input type="date" id="release-date" name="release-date">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="release-editions">Available Editions:</label>
-                                <textarea id="release-editions" name="release-editions" placeholder="List available editions and their contents..."></textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="release-price">Price:</label>
-                                <input type="text" id="release-price" name="release-price" placeholder="e.g., $59.99">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="release-features">Launch Features:</label>
-                                <textarea id="release-features" name="release-features" placeholder="Key features available at launch..."></textarea>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="release-preorder">Pre-order Bonuses:</label>
-                                <textarea id="release-preorder" name="release-preorder" placeholder="List any pre-order bonuses or incentives..."></textarea>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="dev-screenshots">Upload Screenshots:</label>
-                            <input type="file" id="dev-screenshots" name="dev-screenshots" accept="image/*" multiple>
-                        </div>
-                    </fieldset>
-                </div>
-
-                <!-- Game Reviews Section -->
-                <div id="reviews-section" class="gaming-section form-section">
-                    <fieldset>
-                        <legend><i class="fa-solid fa-gamepad"></i> Game Review</legend>
-                        <div class="form-group">
-                            <label for="review-game">Game Title:</label>
-                            <input type="text" id="review-game" name="review-game">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="review-platform">Platform:</label>
-                            <select id="review-platform" name="review-platform">
-                                <option value="">Select platform...</option>
-                                <option value="pc">PC</option>
-                                <option value="console">Console</option>
-                                <option value="mobile">Mobile</option>
-                                <option value="multi">Multi-platform</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="review-genre">Genre:</label>
-                            <select id="review-genre" name="review-genre">
-                                <option value="">Select genre...</option>
-                                <option value="rpg">RPG</option>
-                                <option value="fps">FPS</option>
-                                <option value="strategy">Strategy</option>
-                                <option value="indie">Indie</option>
-                                <option value="mmo">MMO</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="review-rating">Rating (1-10):</label>
-                            <input type="number" id="review-rating" name="review-rating" min="1" max="10">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="review-pros">Pros:</label>
-                            <textarea id="review-pros" name="review-pros" placeholder="List the game's strengths..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="review-cons">Cons:</label>
-                            <textarea id="review-cons" name="review-cons" placeholder="List the game's weaknesses..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="review-screenshots">Upload Screenshots:</label>
-                            <input type="file" id="review-screenshots" name="review-screenshots" accept="image/*" multiple>
-                        </div>
-                    </fieldset>
-                </div>
-
-                <!-- General Gaming Section -->
-                <div id="general-section" class="gaming-section form-section">
-                    <fieldset>
-                        <legend><i class="fa-solid fa-gamepad"></i> General Gaming</legend>
-                        <div class="form-group">
-                            <label for="general-topic">Topic:</label>
-                            <input type="text" id="general-topic" name="general-topic" placeholder="e.g., Upcoming games, Gaming trends, Industry news">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="general-games">Games Mentioned:</label>
-                            <input type="text" id="general-games" name="general-games" placeholder="List games you'll be discussing">
-                        </div>
-
-                        <div class="form-group">
-                            <label for="general-outline">Outline:</label>
-                            <textarea id="general-outline" name="general-outline" placeholder="List your main points and ideas here..."></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="general-screenshots">Upload Screenshots:</label>
-                            <input type="file" id="general-screenshots" name="general-screenshots" accept="image/*" multiple>
-                        </div>
-                    </fieldset>
-                </div>
-
-                <!-- Virtual Photography Section -->
-                <div id="virtual-photo-section" class="gaming-section form-section">
-                    <fieldset>
-                        <legend><i class="fa-solid fa-gamepad"></i> Virtual Photography</legend>
-                        <div class="form-group">
-                            <label for="photo-game">Game Title:</label>
-                            <input type="text" id="photo-game" name="photo-game" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="photo-location">Location/Setting:</label>
-                            <input type="text" id="photo-location" name="photo-location" placeholder="Where were the photos taken?" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="photo-caption">Caption:</label>
-                            <textarea id="photo-caption" name="photo-caption" placeholder="Describe your photo or share your thoughts..." required></textarea>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="photo-screenshots">Upload Photos:</label>
-                            <input type="file" id="photo-screenshots" name="photo-screenshots" accept="image/*" multiple required>
-                        </div>
-                    </fieldset>
-                </div>
-            </div>
-
-            <!-- Common Sections -->
-            <div id="common-sections" class="form-section hidden">
                 <!-- Publishing & Promotion -->
-                <button type="button" class="secondary-button mb-2" onclick="toggleSection(this)"><i class="fa-solid fa-upload"></i> Publishing & Promotion</button>
-                <div class="form-section hidden">
+                <h3 class="collapsible-heading" onclick="toggleSection(this)">
+                    <i class="fa-solid fa-upload"></i>
+                    Publishing & Promotion
+                    <i class="fa-solid fa-chevron-down arrow"></i>
+                </h3>
+                <div class="collapsible-content">
                     <fieldset>
                         <div class="form-group">
                             <label for="platform">Publishing Platform:</label>
@@ -700,15 +244,15 @@
             </div>
 
             <div class="button-group">
-                <button type="button" onclick="showSaveModal()" class="secondary-button">Save Blog Plan</button>
-                <button type="button" onclick="resetForm()" class="secondary-button">New Blog Plan</button>
+                <button type="button" onclick="showSaveModal()" class="secondary-button">Save Post</button>
+                <button type="button" onclick="resetForm()" class="secondary-button">New Post</button>
             </div>
         </form>
 
         <!-- Save Modal -->
         <div id="save-modal" class="modal">
             <div class="modal-content">
-                <h3>Save Blog Plan</h3>
+                <h3>Save Post</h3>
                 <div class="form-group">
                     <label for="plan-name">Plan Name:</label>
                     <input type="text" id="plan-name" required>
@@ -812,7 +356,7 @@
                 section.classList.remove('visible');
             });
             
-            // Show/hide Primfeed option based on category
+            // Show/hide Primfeed option based on post type
             if (category === 'second-life') {
                 slForm.classList.remove('hidden');
                 commonSections.classList.remove('hidden');
@@ -928,10 +472,10 @@
             }
         }
 
-        function toggleSection(button) {
-            button.classList.toggle('active');
-            const content = button.nextElementSibling;
-            content.classList.toggle('hidden');
+        function toggleSection(heading) {
+            heading.classList.toggle('active');
+            const content = heading.nextElementSibling;
+            content.classList.toggle('visible');
         }
 
         function selectCategory(category) {
@@ -1074,7 +618,7 @@
             const planName = document.getElementById('plan-name').value;
             
             if (!planName) {
-                alert('Please enter a name for your blog plan');
+                alert('Please enter a name for your post');
                 return;
             }
 
@@ -1097,21 +641,21 @@
             });
 
             // Get existing plans or initialize empty array
-            const savedPlans = JSON.parse(localStorage.getItem('savedBlogPlans') || '[]');
+            const savedPlans = JSON.parse(localStorage.getItem('savedPosts') || '[]');
             
             // Add new plan
             savedPlans.push(formData);
             
             // Save back to localStorage
-            localStorage.setItem('savedBlogPlans', JSON.stringify(savedPlans));
+            localStorage.setItem('savedPosts', JSON.stringify(savedPlans));
             
             closeSaveModal();
             loadSavedPlans();
-            alert('Blog plan saved successfully!');
+            alert('Post saved successfully!');
         }
 
         function loadSavedPlans() {
-            const savedPlans = JSON.parse(localStorage.getItem('savedBlogPlans') || '[]');
+            const savedPlans = JSON.parse(localStorage.getItem('savedPosts') || '[]');
             const plansList = document.getElementById('saved-plans-list');
             
             plansList.innerHTML = savedPlans.length ? '' : '<p class="empty-state">No saved plans yet</p>';
@@ -1135,7 +679,7 @@
         }
 
         function loadPlan(index) {
-            const savedPlans = JSON.parse(localStorage.getItem('savedBlogPlans') || '[]');
+            const savedPlans = JSON.parse(localStorage.getItem('savedPosts') || '[]');
             const plan = savedPlans[index];
             
             if (!plan) return;
@@ -1168,20 +712,20 @@
                 selectGamingCategory(plan.data['gaming-subcategory']);
             }
 
-            alert('Blog plan loaded successfully!');
+            alert('Post loaded successfully!');
         }
 
         function deletePlan(index) {
-            if (!confirm('Are you sure you want to delete this blog plan?')) return;
+            if (!confirm('Are you sure you want to delete this post?')) return;
 
-            const savedPlans = JSON.parse(localStorage.getItem('savedBlogPlans') || '[]');
+            const savedPlans = JSON.parse(localStorage.getItem('savedPosts') || '[]');
             savedPlans.splice(index, 1);
-            localStorage.setItem('savedBlogPlans', JSON.stringify(savedPlans));
+            localStorage.setItem('savedPosts', JSON.stringify(savedPlans));
             loadSavedPlans();
         }
 
         function resetForm() {
-            if (!confirm('Are you sure you want to start a new blog plan? Any unsaved changes will be lost.')) return;
+            if (!confirm('Are you sure you want to start a new post? Any unsaved changes will be lost.')) return;
             
             const form = document.getElementById('blogForm');
             form.reset();
